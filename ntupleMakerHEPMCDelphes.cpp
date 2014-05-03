@@ -437,8 +437,20 @@ int main (int argc, char **argv) {
    *   - even if b-tag not required, the jet matching is left to this criterion, otherwise new backgrounds MUST be included
    */
   
+  
   //---- at least 4 jets with pt>MINPTJET GeV
   float MINPTJET = 15.;  
+  int countFatJets = 0;
+  for(i = 0; i < branchFatJet->GetEntriesFast(); i++) {
+   jet = (Jet*) branchFatJet->At(i);
+   TLorentzVector jetP4 = jet->P4();
+   /// check that the jet is not close to the leptons
+   if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) countFatJets++;
+  } 
+  
+  
+  //---- at least 4 jets with pt>MINPTJET GeV
+//   float MINPTJET = 15.;  
   int countJets = 0;
   for(i = 0; i < branchJet->GetEntriesFast(); i++) {
    jet = (Jet*) branchJet->At(i);
