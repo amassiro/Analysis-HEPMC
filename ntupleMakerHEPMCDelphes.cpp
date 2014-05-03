@@ -624,6 +624,7 @@ int main (int argc, char **argv) {
      gen_hbb_pt  = particle->P4().Pt(); 
      gen_hbb_phi = particle->P4().Phi(); 
      gen_hbb_eta = particle->P4().Eta(); 
+     gen_hbb_mass = particle->P4().M(); 
      nH++;
     }
     
