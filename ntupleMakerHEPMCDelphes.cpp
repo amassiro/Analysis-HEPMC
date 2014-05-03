@@ -65,7 +65,7 @@ int main (int argc, char **argv) {
   ("help,h", "produce help message")
   ("inputfile,i", po::value<std::string>(&inputfile)->default_value("../GluGluToHHTo2B2G_M-125_8TeV_madgraph_v2_DEL_v03.root"), "input file")
   ("outputfile,o", po::value<std::string>(&outputfile)->default_value("output.root"), "output file")
-  ("outputtree,t", po::value<std::string>(&outputtree)->default_value("GluGluToHHTo2B2G_8TeV"), "output tree")
+  ("outputtree,t", po::value<std::string>(&outputtree)->default_value("ntu"), "output tree")
   ("doHwwselection", po::value<bool>(&doHwwselection)->default_value(true),  "apply Hww selection")  
   ("doHggselection", po::value<bool>(&doHggselection)->default_value(false), "apply Hgg selection")  
   ("doHbbselection", po::value<bool>(&doHbbselection)->default_value(false), "apply Hbb selection")  
@@ -608,7 +608,7 @@ int main (int argc, char **argv) {
     int IsPU = particle->IsPU;
     int status = particle->Status;
     
-    if (IsPU == 0 && status == 3 && (pdgCode == 12 || pdgCode == 14 || pdgCode == 16) ) {
+    if (IsPU == 0 && status == 1 && (pdgCode == 12 || pdgCode == 14 || pdgCode == 16) ) {
      gen_met_vector = gen_met_vector + particle->P4();
     }
     

@@ -43,7 +43,7 @@ Delphes simulation:
 
     rm data/example2.delphes.root
     ../Delphes-3.0.10/DelphesHepMC    delphes_card_CMS_modified.tcl    data/example2.delphes.root ../Delphes-3.0.10/data/test-ttbar.lhe.hepmc
-    ../Delphes-3.0.10/DelphesHepMC    delphes_card_CMS_modified.tcl    data/example2.delphes.root ../Delphes-3.0.10/data/HHvbf_100tev_bbww_CV-1-C2V-3-C3-10.lhe.hepmc
+    ../Delphes-3.0.10/DelphesHepMC    delphes_card_CMS_modified.tcl    data/example2.delphes.root data/HHvbf_100tev_bbww_CV-1-C2V-3-C3-10.lhe.hepmc
     
 
 create ntuple:
