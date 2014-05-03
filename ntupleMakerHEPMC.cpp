@@ -429,6 +429,18 @@ void myTree::Init(){
 
 
 void myTree::fillTree(std::string fileNameHEPMC){
+
+ std::ifstream ifs (fileNameHEPMC.c_str ()) ;
+ //---- ConeRadius
+ double Radius = 0.4;
+ 
+ //---- Type of jet algorithm
+ std::string JetAlgorithm = "AK";
+ 
+ 
+
+ 
+ 
  
  /**
  std::ifstream ifs (fileNameHEPMC.c_str ()) ;
