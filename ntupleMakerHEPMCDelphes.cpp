@@ -28,6 +28,14 @@ bool isThisJetALepton(TLorentzVector* jet, TLorentzVector* l1, TLorentzVector* l
  return isLep;
 }
 
+bool isThisJetOk(TLorentzVector* jet, TLorentzVector* gen){
+ bool isOk = false;
+ double DRmax = 0.5;
+ if (gen) if (jet->DeltaR(*gen) < DRmax) isOk = true;
+ return isOk;
+}
+
+
 struct myclassMin {
  bool operator() (std::pair<float, std::pair <int,Int_t> > i, std::pair<float, std::pair <int,Int_t> > j) { 
   return (i.first < j.first);
@@ -85,7 +93,7 @@ int main (int argc, char **argv) {
  }
  // end of argument parsing
  //################################################
-
+ 
  // check if at least one selection is turned on
  if( (!doHwwselection) && (!doHggselection) && (!doHbbselection) ) {std::cerr << std::endl << "ERROR: Exactly one Higgs selection must be turned on, exiting" << std::endl; return 1;} 
  // check if at most one selection is turned on
@@ -127,7 +135,7 @@ int main (int argc, char **argv) {
  float hbb_phi;
  float hbb_e;
  float hbb_mass;
-
+ 
  float gen_hbb_pt;
  float gen_hbb_phi;
  float gen_hbb_eta;
@@ -174,7 +182,7 @@ int main (int argc, char **argv) {
  float hgg_phi;
  float hgg_e;
  float hgg_mass;
-
+ 
  float hgg_g1_pt;
  float hgg_g1_eta;
  float hgg_g1_phi;
@@ -183,13 +191,13 @@ int main (int argc, char **argv) {
  float hgg_g2_eta;
  float hgg_g2_phi;
  float hgg_g2_e;
-
+ 
  float gen_hgg_pt;
  float gen_hgg_eta;
  float gen_hgg_phi;
  float gen_hgg_e;
  float gen_hgg_mass;
-
+ 
  float gen_hgg_g1_pt;
  float gen_hgg_g1_eta;
  float gen_hgg_g1_phi;
@@ -198,8 +206,8 @@ int main (int argc, char **argv) {
  float gen_hgg_g2_eta;
  float gen_hgg_g2_phi;
  float gen_hgg_g2_e;
-
-
+ 
+ 
  //---- x>hh_m (ww)
  float xhh_ww_mt;
  
@@ -240,7 +248,7 @@ int main (int argc, char **argv) {
  outtree->Branch("gen_hbb_eta", &gen_hbb_eta, "gen_hbb_eta/F");
  outtree->Branch("gen_hbb_e", &gen_hbb_e, "gen_hbb_e/F");
  outtree->Branch("gen_hbb_mass", &gen_hbb_mass, "gen_hbb_mass/F");
-
+ 
  outtree->Branch("hww_mt", &hww_mt, "hww_mt/F");
  outtree->Branch("hww_pt", &hww_pt, "hww_pt/F");
  outtree->Branch("hww_etap", &hww_etap, "hww_etap/F");
@@ -277,7 +285,7 @@ int main (int argc, char **argv) {
  outtree->Branch("hgg_phi", &hgg_phi, "hgg_phi/F");
  outtree->Branch("hgg_e", &hgg_e, "hgg_e/F");
  outtree->Branch("hgg_mass", &hgg_mass, "hgg_mass/F");
-
+ 
  outtree->Branch("hgg_g1_pt", &hgg_g1_pt, "hgg_g1_pt/F");
  outtree->Branch("hgg_g1_eta", &hgg_g1_eta, "hgg_g1_eta/F");
  outtree->Branch("hgg_g1_phi", &hgg_g1_phi, "hgg_g1_phi/F");
@@ -286,13 +294,13 @@ int main (int argc, char **argv) {
  outtree->Branch("hgg_g2_eta", &hgg_g2_eta, "hgg_g2_eta/F");
  outtree->Branch("hgg_g2_phi", &hgg_g2_phi, "hgg_g2_phi/F");
  outtree->Branch("hgg_g2_e", &hgg_g2_e, "hgg_g2_e/F");
-
+ 
  outtree->Branch("gen_hgg_pt", &gen_hgg_pt, "gen_hgg_pt/F");
  outtree->Branch("gen_hgg_eta", &gen_hgg_eta, "gen_hgg_eta/F");
  outtree->Branch("gen_hgg_phi", &gen_hgg_phi, "gen_hgg_phi/F");
  outtree->Branch("gen_hgg_e", &gen_hgg_e, "gen_hgg_e/F");
  outtree->Branch("gen_hgg_mass", &gen_hgg_mass, "gen_hgg_mass/F");
-
+ 
  outtree->Branch("gen_hgg_g1_pt", &gen_hgg_g1_pt, "gen_hgg_g1_pt/F");
  outtree->Branch("gen_hgg_g1_eta", &gen_hgg_g1_eta, "gen_hgg_g1_eta/F");
  outtree->Branch("gen_hgg_g1_phi", &gen_hgg_g1_phi, "gen_hgg_g1_phi/F");
@@ -301,7 +309,7 @@ int main (int argc, char **argv) {
  outtree->Branch("gen_hgg_g2_eta", &gen_hgg_g2_eta, "gen_hgg_g2_eta/F");
  outtree->Branch("gen_hgg_g2_phi", &gen_hgg_g2_phi, "gen_hgg_g2_phi/F");
  outtree->Branch("gen_hgg_g2_e", &gen_hgg_g2_e, "gen_hgg_g2_e/F");
-
+ 
  outtree->Branch("xhh_ww_mt",  &xhh_ww_mt,  "xhh_ww_mt/F");
  
  outtree->Branch("xhh_p_ww_pt",  &xhh_p_ww_pt,  "xhh_p_ww_pt/F");
@@ -357,18 +365,18 @@ int main (int argc, char **argv) {
    int pdgCode = TMath::Abs(particle->PID);
    int IsPU = particle->IsPU;
    int status = particle->Status;
-
-//    if (status == 3) {
-//     std::cout << " [" << iPart << "] status 3 = " << pdgCode << std::endl;
-//    }
-// 
-//    if (status == 2) {
-//     std::cout << " [" << iPart << "] status 2 = " << pdgCode << std::endl;
-//    }
-//    
-//    if (status == 1) {
-//     std::cout << " [" << iPart << "] status 1 = " << pdgCode << std::endl;
-//    }
+   
+   //    if (status == 3) {
+   //     std::cout << " [" << iPart << "] status 3 = " << pdgCode << std::endl;
+   //    }
+   // 
+   //    if (status == 2) {
+   //     std::cout << " [" << iPart << "] status 2 = " << pdgCode << std::endl;
+   //    }
+   //    
+   //    if (status == 1) {
+   //     std::cout << " [" << iPart << "] status 1 = " << pdgCode << std::endl;
+   //    }
    
    
    //---- electrons or muons
@@ -383,12 +391,12 @@ int main (int argc, char **argv) {
     }
    }
   }
-    
+  
   //---- at least 2 leptons ----
   TLorentzVector l1, l2;
-
+  
   if (m_maxptleptons.size() < 2) {
-//    std::cout << " nlep = " << m_maxptleptons.size() << std::endl;
+   //    std::cout << " nlep = " << m_maxptleptons.size() << std::endl;
    continue;
   }
   std::cout << " * nlep = " << m_maxptleptons.size() << std::endl;
@@ -438,19 +446,150 @@ int main (int argc, char **argv) {
    */
   
   
-  //---- at least 4 jets with pt>MINPTJET GeV
+  /**
+   * 
+   * Jets:
+   *  * Hypotheses: 
+   *    - no b-fake
+   *    - perfect b-tag, or, the b-tag not perfect can be filtered later
+   * 
+   *  * Criterion:
+   *    - look for fat jets
+   *    - if 1 fat jet is found and it is     matched to h>bb using MC information -> that is h>bb
+   *    - if 1 fat jet is found and it is NOT matched to h>bb using MC information -> that cannot be b-tagged
+   *    - if 0 fat jets are found -> look for b-jets
+   *       - use MC truth to match jets with b-quarks
+   *       - if you cannot match 2 b-jets then reject the event (that cannot be b-tagged)
+   *       - if you can    match 2 b-jets then the two jets are h>bb
+   *    - look for remaining jets
+   *       - take two hihgest pt jets -> those are vbf jets
+   * 
+   */
+  
+  //---- MC information first (used for b-tag matching)
+  TLorentzVector gen_met_vector;
+  TLorentzVector gen_b1;
+  TLorentzVector gen_b2;
+  TLorentzVector gen_hbb;
+  
+  int nH = 0;
+  for(int iPart = 0; iPart < branchParticle->GetEntriesFast(); iPart++) {
+   GenParticle* particle = (GenParticle*) branchParticle->At(iPart);
+   //---- neutrinos
+   int pdgCode = TMath::Abs(particle->PID);
+   int IsPU = particle->IsPU;
+   int status = particle->Status;
+   
+   if (IsPU == 0 && status == 1 && (pdgCode == 12 || pdgCode == 14 || pdgCode == 16) ) {
+    gen_met_vector = gen_met_vector + particle->P4();
+   }
+   
+   
+   if (IsPU == 0  &&  pdgCode == 25) {
+    // h ->  W W -> lvlv
+    GenParticle* possibleW = (GenParticle*) (branchParticle->At(particle->D1));
+    if (abs(possibleW->PID) == 24) { //---- h>ww
+     gen_hww_pt  = particle->P4().Pt(); 
+     gen_hww_phi = particle->P4().Phi(); 
+     gen_hww_eta = particle->P4().Eta(); 
+     nH++;
+    }
+    else { //---- h>bb
+     gen_hbb_pt  = particle->P4().Pt(); 
+     gen_hbb_phi = particle->P4().Phi(); 
+     gen_hbb_eta = particle->P4().Eta(); 
+     gen_hbb_mass = particle->P4().M(); 
+
+     gen_hbb = (TLorentzVector)  particle->P4();
+     gen_b1 = (TLorentzVector) ((GenParticle*) (branchParticle->At(particle->D1)))->P4();
+     gen_b2 = (TLorentzVector) ((GenParticle*) (branchParticle->At(particle->D2)))->P4();
+     
+     nH++;
+    }
+   }
+  }
+  
+  //---- for the background
+  if (nH==0) {
+   for(int iPart = 0; iPart < branchParticle->GetEntriesFast(); iPart++) {
+    GenParticle* particle = (GenParticle*) branchParticle->At(iPart);
+    //---- neutrinos
+    int pdgCode = TMath::Abs(particle->PID);
+    int IsPU = particle->IsPU;
+    int status = particle->Status;
+    if (IsPU == 0  &&  pdgCode == 5) { //---- take directly the b-quarks as a reference
+     if (gen_b1.Pt() == 0) {
+      gen_b1 = particle->P4();
+     }
+     else {
+      gen_b2 = particle->P4();
+     }
+    }
+   }
+  }
+  
+//   std::cout << " gen_b1.Pt() = " << gen_b1.Pt() << std::endl;
+//   std::cout << " gen_b2.Pt() = " << gen_b2.Pt() << std::endl;
+  
+  /**
+  *    - look for fat jets
+  *    - if 1 fat jet is found and it is     matched to h>bb using MC information -> that is h>bb
+  *    - if 1 fat jet is found and it is NOT matched to h>bb using MC information -> that cannot be b-tagged -> go on as if it was not there
+  *    - if 0 fat jets MATCHED are found -> look for b-jets
+  *       - use MC truth to match jets with b-quarks
+  *       - if you cannot match 2 b-jets then reject the event (that cannot be b-tagged)
+  *       - if you can    match 2 b-jets then the two jets are h>bb
+  */
+  
+  int fatjetfound = 0;
+  TLorentzVector fatBBJet;
+  TLorentzVector BJet_1;
+  TLorentzVector BJet_2;
+  
   float MINPTJET = 15.;  
   int countFatJets = 0;
   for(i = 0; i < branchFatJet->GetEntriesFast(); i++) {
    jet = (Jet*) branchFatJet->At(i);
    TLorentzVector jetP4 = jet->P4();
    /// check that the jet is not close to the leptons
-   if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) countFatJets++;
-  } 
+   if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
+    countFatJets++;
+    if (isThisJetOk(&gen_hbb,&jetP4)) {
+     fatBBJet = jetP4;
+     fatjetfound = 1;
+    }
+   }
+  }
   
+  int bjetsfound = 0;
+  if (fatjetfound == 0) {
+   for(i = 0; i < branchJet->GetEntriesFast(); i++) {
+    jet = (Jet*) branchJet->At(i);
+    TLorentzVector jetP4 = jet->P4();
+    /// check that the jet is not close to the leptons
+    if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
+     if (isThisJetOk(&gen_b1,&jetP4) && isThisJetOk(&gen_b2,&jetP4)) { //--- check it the jet matches with a b-jet
+      if (BJet_1.Pt() == 0) {
+       BJet_1 = jetP4;
+       bjetsfound++;
+      }
+      else {
+       BJet_2 = jetP4;
+       bjetsfound++;
+      }
+     }  
+    }
+   }
+  }
+  
+  if (bjetsfound<2 || fatjetfound==0) {
+   std::cout << " ** No 2-b-jets found " << std::endl;
+  }
+   
+     
   
   //---- at least 4 jets with pt>MINPTJET GeV
-//   float MINPTJET = 15.;  
+  //   float MINPTJET = 15.;  
   int countJets = 0;
   for(i = 0; i < branchJet->GetEntriesFast(); i++) {
    jet = (Jet*) branchJet->At(i);
@@ -599,37 +738,7 @@ int main (int argc, char **argv) {
    pzll = (l1+l2).Pz();
    dphill = l1.DeltaPhi(l2);
    
-   TLorentzVector gen_met_vector;
-   int nH = 0;
-   for(int iPart = 0; iPart < branchParticle->GetEntriesFast(); iPart++) {
-    GenParticle* particle = (GenParticle*) branchParticle->At(iPart);
-    //---- neutrinos
-    int pdgCode = TMath::Abs(particle->PID);
-    int IsPU = particle->IsPU;
-    int status = particle->Status;
-    
-    if (IsPU == 0 && status == 1 && (pdgCode == 12 || pdgCode == 14 || pdgCode == 16) ) {
-     gen_met_vector = gen_met_vector + particle->P4();
-    }
-    
-    
-    if (IsPU == 0  &&  pdgCode == 35) { //--- 35 = "modified Higgs" (the "25" one is the one decaying into 2b")
-     gen_hww_pt  = particle->P4().Pt(); 
-     gen_hww_phi = particle->P4().Phi(); 
-     gen_hww_eta = particle->P4().Eta(); 
-     nH++;
-    }
-    
-    if (IsPU == 0  &&  pdgCode == 25) { //--- the "25" higgs is the one decaying into 2b"
-     gen_hbb_pt  = particle->P4().Pt(); 
-     gen_hbb_phi = particle->P4().Phi(); 
-     gen_hbb_eta = particle->P4().Eta(); 
-     gen_hbb_mass = particle->P4().M(); 
-     nH++;
-    }
-    
-    
-   }
+
    
    //   std::cout << " nH = " << nH << std::endl;
    
@@ -649,71 +758,62 @@ int main (int argc, char **argv) {
    TLorentzVector hwwp;
    TLorentzVector hwwm;
    
-   if (pfmet != -99) {
-    //   HiggsMass
-    //---- h>ww
-    TLorentzVector vmet;
-    //--- IMPORTANT: h>ww, mll ~ mvv, otherwise something missing in higgs kinematic reconstruction
-    vmet.SetPtEtaPhiM(gen_met_vector.Pt(), 0, gen_met_vector.Phi(), mll);
+   //   HiggsMass
+   //---- h>ww
+   TLorentzVector vmet;
+   //--- IMPORTANT: h>ww, mll ~ mvv, otherwise something missing in higgs kinematic reconstruction
+   vmet.SetPtEtaPhiM(gen_met_vector.Pt(), 0, gen_met_vector.Phi(), mll);
+   
+   hww = l1 + l2 + vmet;
+   
+   hww_pt =  (l1 + l2 + vmet ).Pt();
+   hww_phi = (l1 + l2 + vmet ).Phi();
+   
+   //--- transverse mass
+   hww_mt = sqrt((l1.Pt() + l2.Pt() + vmet.Pt())*(l1.Pt() + l2.Pt() + vmet.Pt()) - hww_pt*hww_pt);
+   
+   //---- kinematic fit for eta
+   float sintheta2 = (hww_pt*hww_pt / (hww.E() * hww.E() - HiggsMass*HiggsMass ));
+   float sintheta;
+   if (sintheta2 > 0) sintheta = sqrt (sintheta2);
+   if (sintheta2 > 0) {
+    hww_etap = - log (tan ( asin ( sintheta ) / 2. )) ;
+    hww_etam = + log (tan ( asin ( sintheta ) / 2. )) ;
     
-    hww = l1 + l2 + vmet;
+    hwwp = hww;
+    //     std::cout << " hww_pt = " << hww_pt << std::endl;
+    hwwp.SetPtEtaPhiM(hww_pt, hww_etap, hww_phi, HiggsMass);
+    hwwm.SetPtEtaPhiM(hww_pt, hww_etam, hww_phi, HiggsMass);
     
-    hww_pt =  (l1 + l2 + vmet ).Pt();
-    hww_phi = (l1 + l2 + vmet ).Phi();
+    //---- x>hh
+    TLorentzVector xhh;
+    xhh = hww + hbb;
+    
+    TLorentzVector xhh_p;
+    TLorentzVector xhh_m;
+    xhh_p = hwwm + hbb;
+    xhh_m = hwwp + hbb;
+    
+    xhh_m_ww_pt  = xhh_m.Pt();
+    xhh_m_ww_eta = xhh_m.Eta();
+    xhh_m_ww_phi = xhh_m.Phi();
+    xhh_m_ww_m   = xhh_m.M();
+    
+    xhh_p_ww_pt  = xhh_p.Pt();
+    xhh_p_ww_eta = xhh_p.Eta();
+    xhh_p_ww_phi = xhh_p.Phi();
+    xhh_p_ww_m   = xhh_p.M();
+    
     
     //--- transverse mass
-    hww_mt = sqrt((l1.Pt() + l2.Pt() + vmet.Pt())*(l1.Pt() + l2.Pt() + vmet.Pt()) - hww_pt*hww_pt);
-    
-    //---- kinematic fit for eta
-    float sintheta2 = (hww_pt*hww_pt / (hww.E() * hww.E() - HiggsMass*HiggsMass ));
-    float sintheta;
-    if (sintheta2 > 0) sintheta = sqrt (sintheta2);
-    if (sintheta2 > 0) {
-     hww_etap = - log (tan ( asin ( sintheta ) / 2. )) ;
-     hww_etam = + log (tan ( asin ( sintheta ) / 2. )) ;
-     
-     hwwp = hww;
-     //     std::cout << " hww_pt = " << hww_pt << std::endl;
-     hwwp.SetPtEtaPhiM(hww_pt, hww_etap, hww_phi, HiggsMass);
-     hwwm.SetPtEtaPhiM(hww_pt, hww_etam, hww_phi, HiggsMass);
-     
-     //---- x>hh
-     TLorentzVector xhh;
-     xhh = hww + hbb;
-     
-     TLorentzVector xhh_p;
-     TLorentzVector xhh_m;
-     xhh_p = hwwm + hbb;
-     xhh_m = hwwp + hbb;
-     
-     xhh_m_ww_pt  = xhh_m.Pt();
-     xhh_m_ww_eta = xhh_m.Eta();
-     xhh_m_ww_phi = xhh_m.Phi();
-     xhh_m_ww_m   = xhh_m.M();
-     
-     xhh_p_ww_pt  = xhh_p.Pt();
-     xhh_p_ww_eta = xhh_p.Eta();
-     xhh_p_ww_phi = xhh_p.Phi();
-     xhh_p_ww_m   = xhh_p.M();
-     
-     
-     //--- transverse mass
-     xhh_ww_mt = sqrt((l1.Pt() + l2.Pt() + vmet.Pt() + bJet1.Pt() + bJet2.Pt())*(l1.Pt() + l2.Pt() + vmet.Pt() + bJet1.Pt() + bJet2.Pt()) - xhh.Pt()*xhh.Pt());
-     
-    }
-    else {
-     hww_etap = -99;
-     hww_etam = -99;
-    }
+    xhh_ww_mt = sqrt((l1.Pt() + l2.Pt() + vmet.Pt() + bJet1.Pt() + bJet2.Pt())*(l1.Pt() + l2.Pt() + vmet.Pt() + bJet1.Pt() + bJet2.Pt()) - xhh.Pt()*xhh.Pt());
     
    }
    else {
-    //---- h>ww
-    hww_pt = -99;
-    hww_etam = -99;
     hww_etap = -99;
-    hww_phi = -99;
+    hww_etam = -99;
    }
+   
    
    
   }
@@ -731,7 +831,7 @@ int main (int argc, char **argv) {
    hww_phi = -99;
   }
   
-    
+  
   
   
   outtree->Fill();
