@@ -34,6 +34,13 @@ haronization only:
     source config.sh
     ./main98.exe   /tmp/amassiro/HHvbf_100tev_bbww_CV-1-C2V-3-C3-10.lhe /tmp/amassiro/HHvbf_100tev_bbww_CV-1-C2V-3-C3-10.lhe.hepmc   13    0     100
     
+    # it doesn't compile on cmsneu ...
+    ./main98.exe   /home/amassiro/HH/data/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe    /home/amassiro/HH/datahepmc/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc   13    0     10000
+    
+    ./main98.exe   /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe    /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc   13    0     10000
+    
+    
+    
     
 Use Delphes:
 =======
@@ -45,6 +52,10 @@ Delphes simulation:
     ../Delphes-3.0.10/DelphesHepMC    delphes_card_CMS_modified.tcl    data/example2.delphes.root ../Delphes-3.0.10/data/test-ttbar.lhe.hepmc
     ../Delphes-3.0.10/DelphesHepMC    delphes_card_CMS_modified.tcl    data/example2.delphes.root data/HHvbf_100tev_bbww_CV-1-C2V-3-C3-10.lhe.hepmc
     
+    ../Delphes-3.0.10/DelphesHepMC    delphes_card_CMS_modified.tcl    data/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.delphes.root data/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc
+    
+    
+    
 
 create ntuple:
 
@@ -52,4 +63,7 @@ create ntuple:
     make ntupleMakerHEPMCDelphes.exe
     ./ntupleMakerHEPMCDelphes.exe -i data/example2.delphes.root
 
+    ./ntupleMakerHEPMCDelphes.exe -i data/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.delphes.root
 
+    
+    
