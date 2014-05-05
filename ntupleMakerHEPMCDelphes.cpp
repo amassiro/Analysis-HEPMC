@@ -14,6 +14,11 @@
 // Verbosity
 #define DEBUG 0
 
+//---- for fastjet
+#include <fastjet/tools/MassDropTagger.hh>
+#include "fastjet/JetDefinition.hh"
+#include "fastjet/ClusterSequence.hh"
+
 
 
 #include <boost/program_options.hpp>
@@ -555,10 +560,45 @@ int main (int argc, char **argv) {
   TLorentzVector bJet1;
   TLorentzVector bJet2;
   
+  TLorentzVector momentum;
+  
   float MINPTJET = 15.;  
   int countFatJets = 0;
   for(i = 0; i < branchFatJet->GetEntriesFast(); i++) {
    jet = (Jet*) branchFatJet->At(i);
+   
+   //---- recluster to find sub-clusters
+   TObject *object;
+   std::vector<fastjet::PseudoJet> particles;
+   for(int j = 0; j < jet->Constituents.GetEntriesFast(); j++){
+    momentum.SetPxPyPzE(0.0, 0.0, 0.0, 0.0);
+    object = jet->Constituents.At(j);
+    if(object == 0) continue;
+    if(object->IsA() == GenParticle::Class())
+    {momentum += ((GenParticle*) object)->P4(); }
+    else if(object->IsA() == Track::Class())
+    {momentum += ((Track*) object)->P4(); }
+    else if(object->IsA() == Tower::Class())
+    {momentum += ((Tower*) object)->P4(); }
+    else if(object->IsA() == Muon::Class())
+    { momentum += ((Muon*) object)->P4(); }
+    else if(object->IsA() == Electron::Class())
+    { momentum += ((Electron*) object)->P4(); }
+    else if(object->IsA() == Photon::Class())
+    { momentum += ((Photon*) object)->P4(); }
+    particles.push_back(momentum);
+   }    
+    
+   // run the jet finding; find the hardest jet
+   fastjet::JetDefinition jet_def(fastjet::cambridge_algorithm, 1.2);
+   
+   fastjet::ClusterSequence cs(particles, jet_def);
+   std::vector<fastjet::PseudoJet> jets = sorted_by_pt(cs.inclusive_jets());
+   
+//    std::cout << "Ran: " << jet_def.description() << std::endl << std::endl;
+   fastjet::MassDropTagger md_tagger(0.667, 0.09);
+   
+   
    TLorentzVector jetP4 = jet->P4();
    /// check that the jet is not close to the leptons
    if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
@@ -696,7 +736,7 @@ int main (int argc, char **argv) {
   hbb_pt  = (hbb).Pt();
   hbb_eta = (hbb).Eta();
   hbb_phi = (hbb).Phi();
-  
+  hbb_mass = (hbb).M();
   
   
   
