@@ -598,14 +598,16 @@ int main (int argc, char **argv) {
 //    std::cout << "Ran: " << jet_def.description() << std::endl << std::endl;
    fastjet::MassDropTagger md_tagger(0.667, 0.09);
    fastjet::PseudoJet tagged = md_tagger(jets[0]);
-   
-   TLorentzVector jetP4 = jet->P4();
-   /// check that the jet is not close to the leptons
-   if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
-    countFatJets++;
-    if (isThisJetOk(&jetP4,&gen_hbb)) {
-     fatBBJet = jetP4;
-     fatjetfound = 1;
+//    std::cout << md_tagger.description();
+   if (tagged != 0) { //---- check if tagged
+    TLorentzVector jetP4 = jet->P4();
+    /// check that the jet is not close to the leptons
+    if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
+     countFatJets++;
+     if (isThisJetOk(&jetP4,&gen_hbb)) {
+      fatBBJet = jetP4;
+      fatjetfound = 1;
+     }
     }
    }
   }
