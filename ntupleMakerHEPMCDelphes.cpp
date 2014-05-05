@@ -523,6 +523,7 @@ int main (int argc, char **argv) {
      }
      else {
       gen_b2 = particle->P4();
+      gen_hbb = gen_b1 + gen_b2;
      }
     }
    }
@@ -582,8 +583,10 @@ int main (int argc, char **argv) {
    }
   }
   
-  if (bjetsfound<2 || fatjetfound==0) {
+  if (bjetsfound<2 && fatjetfound==0) {
    std::cout << " ** No 2-b-jets found " << std::endl;
+   std::cout << " ** bjetsfound  = " << bjetsfound  << std::endl;
+   std::cout << " ** fatjetfound = " << fatjetfound << std::endl;
   }
    
      
