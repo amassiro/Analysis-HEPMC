@@ -18,6 +18,7 @@
 #include <fastjet/tools/MassDropTagger.hh>
 #include "fastjet/JetDefinition.hh"
 #include "fastjet/ClusterSequence.hh"
+#include<valarray>
 
 
 
@@ -596,10 +597,25 @@ int main (int argc, char **argv) {
    std::vector<fastjet::PseudoJet> jets = sorted_by_pt(cs.inclusive_jets());
    
 //    std::cout << "Ran: " << jet_def.description() << std::endl << std::endl;
-   fastjet::MassDropTagger md_tagger(0.667, 0.09);
+   fastjet::MassDropTagger md_tagger(0.667, 0.09); //---- as in arxiv:0802.2470
    fastjet::PseudoJet tagged = md_tagger(jets[0]);
 //    std::cout << md_tagger.description();
    if (tagged != 0) { //---- check if tagged
+    fastjet::PseudoJet parent1 = tagged.pieces()[0];
+    fastjet::PseudoJet parent2 = tagged.pieces()[1];
+    
+    std::valarray<double> v1 = parent1.four_mom();
+    std::valarray<double> v2 = parent2.four_mom();
+    
+//     const {
+//      valarray<double> mom(4);
+//      mom[0] = _px;
+//      mom[1] = _py;
+//      mom[2] = _pz;
+//      mom[3] = _E ;
+//      return mom;
+     
+    
     TLorentzVector jetP4 = jet->P4();
     /// check that the jet is not close to the leptons
     if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
