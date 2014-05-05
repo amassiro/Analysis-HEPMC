@@ -31,7 +31,7 @@ bool isThisJetALepton(TLorentzVector* jet, TLorentzVector* l1, TLorentzVector* l
 bool isThisJetOk(TLorentzVector* jet, TLorentzVector* gen){
  bool isOk = false;
  double DRmax = 0.5;
- if (gen) if (jet->DeltaR(*gen) < DRmax) isOk = true;
+ if (gen && gen->Pt()>0) if (jet->DeltaR(*gen) < DRmax) isOk = true;
  return isOk;
 }
 
@@ -125,6 +125,10 @@ int main (int argc, char **argv) {
  float jeteta2;
  float bjeteta1;
  float bjeteta2;
+ 
+ float fatbbjetpt;
+ float fatbbjeteta;
+ float fatbbjetphi;
  
  float mjj;
  float mbb;
@@ -233,6 +237,10 @@ int main (int argc, char **argv) {
  outtree->Branch("jeteta2",  &jeteta2,  "jeteta2/F");
  outtree->Branch("bjeteta1", &bjeteta1, "bjeteta1/F");
  outtree->Branch("bjeteta2", &bjeteta2, "bjeteta2/F");
+ 
+ outtree->Branch("fatbbjetpt", &fatbbjetpt, "fatbbjetpt/F");
+ outtree->Branch("fatbbjeteta", &fatbbjeteta, "fatbbjeteta/F");
+ outtree->Branch("fatbbjetphi", &fatbbjetphi, "fatbbjetphi/F");
  
  outtree->Branch("mjj", &mjj, "mjj/F");
  outtree->Branch("mbb", &mbb, "mbb/F");
@@ -544,8 +552,8 @@ int main (int argc, char **argv) {
   
   int fatjetfound = 0;
   TLorentzVector fatBBJet;
-  TLorentzVector BJet_1;
-  TLorentzVector BJet_2;
+  TLorentzVector bJet1;
+  TLorentzVector bJet2;
   
   float MINPTJET = 15.;  
   int countFatJets = 0;
@@ -555,7 +563,7 @@ int main (int argc, char **argv) {
    /// check that the jet is not close to the leptons
    if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
     countFatJets++;
-    if (isThisJetOk(&gen_hbb,&jetP4)) {
+    if (isThisJetOk(&jetP4,&gen_hbb)) {
      fatBBJet = jetP4;
      fatjetfound = 1;
     }
@@ -569,13 +577,13 @@ int main (int argc, char **argv) {
     TLorentzVector jetP4 = jet->P4();
     /// check that the jet is not close to the leptons
     if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
-     if (isThisJetOk(&gen_b1,&jetP4) && isThisJetOk(&gen_b2,&jetP4)) { //--- check it the jet matches with a b-jet
-      if (BJet_1.Pt() == 0) {
-       BJet_1 = jetP4;
+     if (isThisJetOk(&jetP4,&gen_b1) && isThisJetOk(&jetP4,&gen_b2)) { //--- check it the jet matches with a b-jet
+      if (bJet1.Pt() == 0) {
+       bJet1 = jetP4;
        bjetsfound++;
       }
       else {
-       BJet_2 = jetP4;
+       bJet2 = jetP4;
        bjetsfound++;
       }
      }  
@@ -587,69 +595,46 @@ int main (int argc, char **argv) {
    std::cout << " ** No 2-b-jets found " << std::endl;
    std::cout << " ** bjetsfound  = " << bjetsfound  << std::endl;
    std::cout << " ** fatjetfound = " << fatjetfound << std::endl;
+   continue;
   }
    
+   
+   /** 
+    *    - look for remaining jets
+    *       - take two hihgest pt jets -> those are vbf jets
+    * 
+    */
      
   
-  //---- at least 4 jets with pt>MINPTJET GeV
+  //---- at least 2 jets with pt>MINPTJET GeV
   //   float MINPTJET = 15.;  
   int countJets = 0;
   for(i = 0; i < branchJet->GetEntriesFast(); i++) {
    jet = (Jet*) branchJet->At(i);
    TLorentzVector jetP4 = jet->P4();
    /// check that the jet is not close to the leptons
-   if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) countJets++;
+   if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))    &&    !isThisJetOk(&jetP4,&bJet1)   &&  !isThisJetOk(&jetP4,&bJet2)   &&  !isThisJetOk(&jetP4,&fatBBJet) ) {
+    countJets++;
+   }
   }
   
-  if (countJets < 4) {
+  if (countJets < 2) {
    continue;
   }
   
   TLorentzVector jet1, jet2, jet3, jet4;
-  TLorentzVector Jet1, Jet2, bJet1, bJet2; //---- the VBF jets and the H>bb jets
+  TLorentzVector Jet1, Jet2;
+  
   int ijet = 0;
   for(i = 0; i < branchJet->GetEntriesFast(); i++) {
    jet = (Jet*) branchJet->At(i);
    TLorentzVector jetP4 = jet->P4();
    
-   if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
-    if      (ijet == 0) {jet1 = jetP4; ijet++; }
-    else if (ijet == 1) {jet2 = jetP4; ijet++; }
-    else if (ijet == 2) {jet3 = jetP4; ijet++; }
-    else if (ijet == 3) {jet4 = jetP4; ijet++; }
+   if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))  &&  !isThisJetOk(&jetP4,&bJet1)   &&  !isThisJetOk(&jetP4,&bJet2)   &&  !isThisJetOk(&jetP4,&fatBBJet)   ) {
+    if      (ijet == 0) {Jet1 = jetP4; ijet++; }
+    else if (ijet == 1) {Jet2 = jetP4; ijet++; }
    }
   }
-  
-  
-  if (jet4.Pt() < MINPTJET) {
-   std::cout << "We have a problem; countJets = " << countJets << "; ijet = " << ijet << " and jet4.Pt() = " << jet4.Pt() << std::endl; 
-  }
-  
-  float mjj12 = (jet1+jet2).M();
-  float mjj13 = (jet1+jet3).M();
-  float mjj14 = (jet1+jet4).M();
-  float mjj23 = (jet2+jet3).M();
-  float mjj24 = (jet2+jet4).M();
-  float mjj34 = (jet3+jet4).M();
-  
-  std::map<float, int> m_maxmjj;
-  m_maxmjj[-mjj12] = 1;
-  m_maxmjj[-mjj13] = 2;
-  m_maxmjj[-mjj14] = 3;
-  m_maxmjj[-mjj23] = 4;
-  m_maxmjj[-mjj24] = 5;
-  m_maxmjj[-mjj34] = 6;
-  
-  
-  std::map<float, int>::iterator it_type_m_maxmjj = m_maxmjj.begin();
-  
-  if (it_type_m_maxmjj->second == 1) { Jet1 = jet1; Jet2 = jet2; bJet1 = jet3; bJet2 = jet4; };
-  if (it_type_m_maxmjj->second == 2) { Jet1 = jet1; Jet2 = jet3; bJet1 = jet2; bJet2 = jet4; };
-  if (it_type_m_maxmjj->second == 3) { Jet1 = jet1; Jet2 = jet4; bJet1 = jet2; bJet2 = jet3; };
-  if (it_type_m_maxmjj->second == 4) { Jet1 = jet2; Jet2 = jet3; bJet1 = jet1; bJet2 = jet4; };
-  if (it_type_m_maxmjj->second == 5) { Jet1 = jet2; Jet2 = jet4; bJet1 = jet1; bJet2 = jet3; };
-  if (it_type_m_maxmjj->second == 6) { Jet1 = jet3; Jet2 = jet4; bJet1 = jet1; bJet2 = jet2; };
-  
   
   //---- sub-order in pt: jetpt1 > jetpt2
   if (Jet1.Pt() < Jet2.Pt()) {
@@ -673,21 +658,44 @@ int main (int argc, char **argv) {
   bjetpt1 = bJet1.Pt();
   bjetpt2 = bJet2.Pt();
   
-  jeteta1 = Jet1.Eta();
-  jeteta2 = Jet2.Eta();
-  bjeteta1 = bJet1.Eta();
-  bjeteta2 = bJet2.Eta();
+  if (bjetpt1>0) {
+   jeteta1 = Jet1.Eta();
+   jeteta2 = Jet2.Eta();
+   bjeteta1 = bJet1.Eta();
+   bjeteta2 = bJet2.Eta();
+  }
+  else {
+   jeteta1 = -99.;
+   jeteta2 = -99.;
+   bjeteta1 = -99.;
+   bjeteta2 = -99.; 
+  }
+  
+  fatbbjetpt  = fatBBJet.Pt();
+  if (fatbbjetpt > 0) {
+   fatbbjeteta = fatBBJet.Eta();
+   fatbbjetphi = fatBBJet.Phi();
+  }
+  else {
+   fatbbjeteta = -99.;
+   fatbbjetphi = -99.;
+  }
   
   TLorentzVector hbb;
-  hbb = bJet1 + bJet2;
+  if (bjetpt1 > 0) {
+   hbb = bJet1 + bJet2;
+  }
+  else {
+   hbb = fatBBJet;
+  }
   
   mjj = (Jet1 +  Jet2 ).M();
-  mbb = (bJet1 + bJet2).M();
+  mbb = (hbb).M();
   
   //---- h>bb
-  hbb_pt = (bJet1 +  bJet2 ).Pt();
-  hbb_eta = (bJet1 +  bJet2 ).Eta();
-  hbb_phi = (bJet1 +  bJet2 ).Phi();
+  hbb_pt  = (hbb).Pt();
+  hbb_eta = (hbb).Eta();
+  hbb_phi = (hbb).Phi();
   
   
   
@@ -809,7 +817,12 @@ int main (int argc, char **argv) {
     
     
     //--- transverse mass
-    xhh_ww_mt = sqrt((l1.Pt() + l2.Pt() + vmet.Pt() + bJet1.Pt() + bJet2.Pt())*(l1.Pt() + l2.Pt() + vmet.Pt() + bJet1.Pt() + bJet2.Pt()) - xhh.Pt()*xhh.Pt());
+    if (bJet1.Pt() > 0) {
+     xhh_ww_mt = sqrt((l1.Pt() + l2.Pt() + vmet.Pt() + bJet1.Pt() + bJet2.Pt())*(l1.Pt() + l2.Pt() + vmet.Pt() + bJet1.Pt() + bJet2.Pt()) - xhh.Pt()*xhh.Pt());
+    }
+    else {
+     xhh_ww_mt = sqrt((l1.Pt() + l2.Pt() + vmet.Pt() + hbb.Pt())*(l1.Pt() + l2.Pt() + vmet.Pt() + hbb.Pt()) - xhh.Pt()*xhh.Pt());
+    }
     
    }
    else {
