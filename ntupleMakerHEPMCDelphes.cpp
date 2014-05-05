@@ -607,16 +607,11 @@ int main (int argc, char **argv) {
     std::valarray<double> v1 = parent1.four_mom();
     std::valarray<double> v2 = parent2.four_mom();
     
-//     const {
-//      valarray<double> mom(4);
-//      mom[0] = _px;
-//      mom[1] = _py;
-//      mom[2] = _pz;
-//      mom[3] = _E ;
-//      return mom;
-     
+    TLorentzVector tlv1;    tlv1.SetPxPyPzE(v1[0], v1[1], v1[2], v1[3]);
+    TLorentzVector tlv2;    tlv2.SetPxPyPzE(v2[0], v2[1], v2[2], v2[3]);
     
-    TLorentzVector jetP4 = jet->P4();
+    TLorentzVector jetP4 = tlv1 + tlv2;
+//     TLorentzVector jetP4 = jet->P4();
     /// check that the jet is not close to the leptons
     if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
      countFatJets++;
@@ -635,7 +630,7 @@ int main (int argc, char **argv) {
     TLorentzVector jetP4 = jet->P4();
     /// check that the jet is not close to the leptons
     if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
-     if (isThisJetOk(&jetP4,&gen_b1) && isThisJetOk(&jetP4,&gen_b2)) { //--- check it the jet matches with a b-jet
+     if (isThisJetOk(&jetP4,&gen_b1) || isThisJetOk(&jetP4,&gen_b2)) { //--- check it the jet matches with a b-jet
       if (bJet1.Pt() == 0) {
        bJet1 = jetP4;
        bjetsfound++;
