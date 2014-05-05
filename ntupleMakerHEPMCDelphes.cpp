@@ -597,7 +597,7 @@ int main (int argc, char **argv) {
    
 //    std::cout << "Ran: " << jet_def.description() << std::endl << std::endl;
    fastjet::MassDropTagger md_tagger(0.667, 0.09);
-   
+   fastjet::PseudoJet tagged = md_tagger(jets[0]);
    
    TLorentzVector jetP4 = jet->P4();
    /// check that the jet is not close to the leptons
