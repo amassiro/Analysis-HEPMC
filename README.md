@@ -38,6 +38,7 @@ haronization only:
     ./main98.exe   /home/amassiro/HH/data/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe    /home/amassiro/HH/datahepmc/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc   13    0     10000
     
     ./main98.exe   /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe    /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc   13    0     10000
+    ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13    0     10000"}'
     
     
     

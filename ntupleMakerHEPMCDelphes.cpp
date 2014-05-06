@@ -611,13 +611,16 @@ int main (int argc, char **argv) {
     TLorentzVector tlv2;    tlv2.SetPxPyPzE(v2[0], v2[1], v2[2], v2[3]);
     
     TLorentzVector jetP4 = tlv1 + tlv2;
-//     TLorentzVector jetP4 = jet->P4();
-    /// check that the jet is not close to the leptons
-    if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
-     countFatJets++;
-     if (isThisJetOk(&jetP4,&gen_hbb)) {
-      fatBBJet = jetP4;
-      fatjetfound = 1;
+    
+    if (jetP4.M() > 40) { //---- just to remove "fake" substructures
+     //     TLorentzVector jetP4 = jet->P4();
+     /// check that the jet is not close to the leptons
+     if (jet->PT > MINPTJET && (!isThisJetALepton(&jetP4, &l1, &l2))) {
+      countFatJets++;
+      if (isThisJetOk(&jetP4,&gen_hbb)) {
+       fatBBJet = jetP4;
+       fatjetfound = 1;
+      }
      }
     }
    }
