@@ -21,6 +21,10 @@ Istall pythia
 Run Hadronizer
 =======
 
+See:
+
+    https://github.com/amassiro/LH-HH-DECAY
+
 from:
 
     /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/LH-HH-DECAY
@@ -39,6 +43,21 @@ haronization only:
     
     ./main98.exe   /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe    /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc   13    0     10000
     ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13    0     10000"}'
+    
+      
+Pythia decay of WW into lvlv and hadronization.
+
+    main95.cc
+
+    ln -s ../../Makefile
+    ln -s ../../main95.cc
+    source config.sh
+    make main95
+
+    
+    ./main95.exe   /tmp/amassiro/100TeV_unweighted_events.lhe    /tmp/amassiro/100TeV_unweighted_events.lhe.hepmc
+    ./main95.exe   /tmp/amassiro/unweighted_events.lhe           /tmp/amassiro/unweighted_events.lhe.hepmc
+
     
     
     
