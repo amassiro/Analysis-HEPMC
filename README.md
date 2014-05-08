@@ -91,6 +91,9 @@ Delphes simulation:
     ../Delphes-3.0.10/DelphesHepMC    delphes_card_CMS_modified.tcl    data/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.delphes.root data/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc
     
     
+    ../Delphes-3.0.10/DelphesHepMC    delphes_card_CMS_modified.tcl    data/tt_100TeV_unweighted_events.lhe.2.hepmc.root data/tt_100TeV_unweighted_events.lhe.2.hepmc
+    
+    
     
 
 create ntuple:
