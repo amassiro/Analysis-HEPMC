@@ -73,9 +73,14 @@ Pythia decay of WW into lvlv and hadronization.
  
     for i in {1..1000}
       do
-        echo "./main95.exe   /tmp/amassiro/100TeV_unweighted_events.lhe    /tmp/amassiro/100TeV_unweighted_events.lhe.$i.hepmc    13  $((i*1000))  $((i*1000+1000))"
+        echo "./main95.exe   /tmp/amassiro/100TeV_unweighted_events.lhe    /tmp/amassiro/100TeV_unweighted_events.lhe.$i.hepmc    13  $((i*1000))  $((i*1000+1000))   ;   "
       done
 
+lxbatch script:
+
+    ....
+      
+      
     
     
 Use Delphes:
@@ -104,5 +109,6 @@ create ntuple:
 
     ./ntupleMakerHEPMCDelphes.exe -i data/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.delphes.root
 
+    ./ntupleMakerHEPMCDelphes.exe -i data/tt_100TeV_unweighted_events.lhe.2.hepmc.root
     
     
