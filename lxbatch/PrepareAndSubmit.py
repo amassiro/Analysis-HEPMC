@@ -22,7 +22,7 @@ if len(sys.argv) == 1:
    sys.exit(0)
 
 
-./main95.exe   /tmp/amassiro/100TeV_unweighted_events.lhe    /tmp/amassiro/100TeV_unweighted_events.lhe.$i.hepmc    13  $((i*1000))  $((i*1000+1000))  
+#./main95.exe   /tmp/amassiro/100TeV_unweighted_events.lhe    /tmp/amassiro/100TeV_unweighted_events.lhe.$i.hepmc    13  $((i*1000))  $((i*1000+1000))  
 
 
 
@@ -30,12 +30,13 @@ if len(sys.argv) == 1:
 for i in range(numOfProcesses) :
   min = i*1000
   max = i*1000+1000
-  
+
   command = '#!/bin/bash\n\
              cd {PWD}\n\
              source config.sh\n\
-             ./main95.exe    blabla.lhe    blabla.{NUM}.hepmc  {MIN}   {MAX}\n \
-             '.format(PWD=wd, ITER=str(i), NUM=i, MIN=min, MAX=max).replace(' ','')
+             /afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select cp    blabla.lhe      /tmp/blabla{ITERO}.lhe
+             ./main95.exe    /tmp/blabla{ITER}.lhe    blabla.{NUM}.hepmc  {MIN}   {MAX}\n \
+             '.format(PWD=wd, ITERO=str(i), ITER=str(i), NUM=i, MIN=min, MAX=max).replace(' ','')
 
   fname = '/'.join([wd,newfol,'sub_'+str(i)+'.sh'])
   f1 = open(fname, 'w+')
