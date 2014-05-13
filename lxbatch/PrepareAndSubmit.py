@@ -52,7 +52,7 @@ for i in range(numOfProcesses) :
              cd -  \n\
              /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    ../delphes_card_CMS_modified.tcl    /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc    \n\
              cp /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbbDelphes/{PROCESS}/{ENERGY}/ \n\
-             '.format(PWD=wd, PROCESS=process, ENERGY=energy, NUM=i, MIN=min, MAX=max).replace(' ','')
+             '.format(PWD=wd, PROCESS=process, ENERGY=energy, NUM=i, MIN=min, MAX=max)
 
   fname = '/'.join([wd,newfol,'sub_'+str(i)+'.sh'])
   f1 = open(fname, 'w+')
