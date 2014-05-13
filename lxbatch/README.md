@@ -24,4 +24,16 @@ kate:
     
 How:
 
-    ./PrepareAndSubmit.py     100     ttbar
+    python PrepareAndSubmit.py    1000     ttjj     14TeV
+    
+    
+But first:
+
+    cd /afs/cern.ch/work/a/amassiro/Generation/CMSSW_5_3_14_patch2/src/
+    cmsenv
+    cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/
+    export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+    make -j 4
+
+    
+    
