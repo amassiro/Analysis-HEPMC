@@ -5,7 +5,6 @@ import subprocess
 import sys
 
 numOfProcesses = int(sys.argv[1])
-
 process = sys.argv[2]
 
 wd = os.getcwd()
