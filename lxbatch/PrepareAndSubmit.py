@@ -32,9 +32,9 @@ for i in range(numOfProcesses) :
   min = i*1000
   max = i*1000+1000
   command = '#!/bin/bash\n\
-             cd {PWD}\n\
+             cd /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/LH-HH-DECAY/pythia8153/examples/\n\
              source config.sh\n\
-             FILE=blabla.lhe \n\
+             FILE=/tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe \n\
              if [ -f $FILE ];\n\
              then\n\
                  echo "File $FILE exists."\n\
@@ -45,12 +45,13 @@ for i in range(numOfProcesses) :
                  gunzip -d /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz   \n\
                  cd - \n\
              fi \n\
-             ./main95.exe    /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc     {MIN}   {MAX}\n \
+             /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/lxbatch/splitLHE  /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe         /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.lhe       {MIN}   {MAX}  \n \
+             ./main95.exe    /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.lhe   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc     \n \
              echo "now run delphes" \n \
              cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10  \n\
              export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH  \n\
              cd -  \n\
-             /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    ../delphes_card_CMS_modified.tcl    /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc    \n\
+             /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl    /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc    \n\
              cp /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbbDelphes/{PROCESS}/{ENERGY}/ \n\
              '.format(PWD=wd, PROCESS=process, ENERGY=energy, NUM=i, MIN=min, MAX=max)
 
@@ -62,7 +63,7 @@ for i in range(numOfProcesses) :
 
 for i in range(numOfProcesses) :
   fname = '/'.join([wd,newfol,'sub_'+str(i)+'.sh'])
-  #subprocess.Popen(['bsub -q {QUEUE} < {FILE}'.format(QUEUE=queue,FILE=fname)], stdout=subprocess.PIPE, shell=True)
+  subprocess.Popen(['bsub -q {QUEUE} < {FILE}'.format(QUEUE=queue,FILE=fname)], stdout=subprocess.PIPE, shell=True)
 
 
 
