@@ -10,8 +10,8 @@ energy  = sys.argv[3]
 
 
 wd = os.getcwd()
-queue = '8nm'
-#queue = '1nh' # -> not enough !?!?
+#queue = '8nm'
+queue = '1nh' # -> not enough !?!?
 #queue = '8nm' #--> not enough time!
 newfol = 'makeDecay_{PROCESS}'.format(PROCESS=process)
 os.system('mkdir -p {PWD}/{NEW}'.format(PWD=wd,NEW=newfol))
@@ -38,7 +38,7 @@ for i in range(numOfProcesses) :
              if [ -f $FILE ];\n\
              then\n\
                  echo "File $FILE exists."\n\
-                 sleep 60 \n\
+                 sleep 30 \n\
              else\n\
                  echo "File $FILE does not exist."\n\
                  cp /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbb/{PROCESS}/{ENERGY}/unweighted_events.lhe.gz    /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz   \n\
