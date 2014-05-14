@@ -13,7 +13,8 @@ Input:
 where:
 
     /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC
-
+    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/lxbatch
+    
     /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/LH-HH-DECAY/pythia8153/examples
 
 kate:
@@ -25,7 +26,7 @@ kate:
 How:
 
     python PrepareAndSubmit.py    1000     ttjj     14TeV
-    
+    python PrepareAndSubmit.py     100     ttjj     14TeV
     
 But first:
 
