@@ -38,6 +38,7 @@ for i in range(numOfProcesses) :
              if [ -f $FILE ];\n\
              then\n\
                  echo "File $FILE exists."\n\
+                 sleep 60 \n\
              else\n\
                  echo "File $FILE does not exist."\n\
                  cp /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbb/{PROCESS}/{ENERGY}/unweighted_events.lhe.gz    /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz   \n\
@@ -55,8 +56,10 @@ for i in range(numOfProcesses) :
              eval `scram runtime -sh`  \n \
              cd -  \n\
              /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl    /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc    \n\
-             cp /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbbDelphes/{PROCESS}/{ENERGY}/ \n\
+             /afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /eos/cms/store/user/amassiro/HH/Samples/{PROCESS}/{ENERGY}/ \n\
              '.format(PWD=wd, PROCESS=process, ENERGY=energy, NUM=i, MIN=min, MAX=max)
+
+
 
   fname = '/'.join([wd,newfol,'sub_'+str(i)+'.sh'])
   f1 = open(fname, 'w+')
