@@ -56,7 +56,7 @@ for i in range(numOfProcesses) :
              eval `scram runtime -sh`  \n \
              cd -  \n\
              /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl    /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc    \n\
-             /afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /eos/cms/store/user/amassiro/HH/Samples/{PROCESS}/{ENERGY}/ \n\
+             /afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select cp /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /eos/cms/store/user/amassiro/HH/Samples/{PROCESS}/{ENERGY}/ \n\
              '.format(PWD=wd, PROCESS=process, ENERGY=energy, NUM=i, MIN=min, MAX=max)
 
 
