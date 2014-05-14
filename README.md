@@ -43,6 +43,21 @@ haronization only:
     
     ./main98.exe   /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe    /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc   13    0     10000
     ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13    0     10000"}'
+
+    cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10
+    export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH 
+    cd -
+    ls /tmp/amassiro/*.lhe | awk '{print "/afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC  /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl    "$1".hepmc.delphes.root    "$1".hepmc    "}'
+    
+Signal:
+
+    cd /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/LH-HH-DECAY/pythia8153/examples
+    source config.sh
+    scp amassiro@cmsneu.cern.ch:/home/amassiro/HH/data/* /tmp/amassiro/
+    ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13    0     10000"}'
+    ./main98.exe   /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe    /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc   13    0     10000
+    ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13    0     10000"}'
+    
     
       
 Pythia decay of WW into lvlv and hadronization.
