@@ -14,7 +14,7 @@ where:
 
     /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC
     /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/lxbatch
-    
+
     /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/LH-HH-DECAY/pythia8153/examples
 
 kate:
@@ -26,10 +26,9 @@ kate:
 How:
 
     python PrepareAndSubmit.py    1000     ttjj     14TeV
-    python PrepareAndSubmit.py     100     ttjj     14TeV
-    python PrepareAndSubmit.py     100     ttjj     100TeV
+    python PrepareAndSubmit.py    1000     ttjj     100TeV
 
-    
+
 But first:
 
     cd /afs/cern.ch/work/a/amassiro/Generation/CMSSW_5_3_14_patch2/src/
@@ -38,5 +37,5 @@ But first:
     export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
     make -j 4
 
-    
-    
+
+

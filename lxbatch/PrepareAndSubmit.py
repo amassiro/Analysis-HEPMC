@@ -43,6 +43,7 @@ for i in range(numOfProcesses) :
                  echo "File $FILE does not exist."\n\
                  FILE=/tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz \n\
                  if [ -f $FILE ];\n\
+                 then\n\
                      echo "File $FILE exists, unzipping now."\n\
                      sleep 30 \n\
                  else\n\
