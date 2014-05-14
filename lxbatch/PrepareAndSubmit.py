@@ -41,9 +41,15 @@ for i in range(numOfProcesses) :
                  sleep 30 \n\
              else\n\
                  echo "File $FILE does not exist."\n\
-                 cp /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbb/{PROCESS}/{ENERGY}/unweighted_events.lhe.gz    /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz   \n\
-                 cd /tmp/   \n\
-                 gunzip -d /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz   \n\
+                 FILE=/tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz \n\
+                 if [ -f $FILE ];\n\
+                     echo "File $FILE exists, unzipping now."\n\
+                     sleep 30 \n\
+                 else\n\
+                     cp /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbb/{PROCESS}/{ENERGY}/unweighted_events.lhe.gz    /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz   \n\
+                     cd /tmp/   \n\
+                     gunzip -d /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz   \n\
+                 fi \n\
                  cd - \n\
              fi \n\
              /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/lxbatch/splitLHE  /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe         /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.lhe       {MIN}   {MAX}  \n \
