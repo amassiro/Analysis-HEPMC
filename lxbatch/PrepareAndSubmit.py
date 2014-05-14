@@ -10,7 +10,7 @@ energy  = sys.argv[3]
 
 
 wd = os.getcwd()
-queue = '8nh'
+queue = '8nm'
 #queue = '1nh' # -> not enough !?!?
 #queue = '8nm' #--> not enough time!
 newfol = 'makeDecay_{PROCESS}'.format(PROCESS=process)
@@ -51,6 +51,9 @@ for i in range(numOfProcesses) :
              cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10  \n\
              export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH  \n\
              cd -  \n\
+             cd /afs/cern.ch/work/a/amassiro/Generation/CMSSW_5_3_14_patch2 \n \
+             eval `scram runtime -sh`  \n \
+             cd -  \n\
              /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl    /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc    \n\
              cp /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbbDelphes/{PROCESS}/{ENERGY}/ \n\
              '.format(PWD=wd, PROCESS=process, ENERGY=energy, NUM=i, MIN=min, MAX=max)
@@ -61,6 +64,7 @@ for i in range(numOfProcesses) :
   os.system('chmod 755 {FILE}'.format(FILE=fname))
   f1.close()
 
+print "now submit"
 for i in range(numOfProcesses) :
   fname = '/'.join([wd,newfol,'sub_'+str(i)+'.sh'])
   subprocess.Popen(['bsub -q {QUEUE} < {FILE}'.format(QUEUE=queue,FILE=fname)], stdout=subprocess.PIPE, shell=True)
