@@ -1,4 +1,4 @@
-void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 1000, std::string varHR = "", int Energy) {
+void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 1000, std::string varHR = "", int Energy) {
  
  if (varHR == "") {
   varHR = var;
@@ -23,13 +23,13 @@ void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX =
  //
  // *1000.--> fb
  //
- double LUMI = 3000. * 1000.; //---- 1 ab
+ double LUMI = 3000. * 1000.; //---- 3 ab
  
  
  std::cout << " Center of mass energy = " << Energy << std::endl;
  
  if (Energy = 14) {
-  vNameSig.push_back("data/signalDelphes/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
+  vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
   vXsecSig.push_back(0.69676E-05*1.166e-02/10000.); //---- pb
   
   //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p0p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=0.5 c2v=1.0 c3=1.0");
@@ -45,6 +45,7 @@ void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX =
   //  vXsecSig.push_back(0.94832E-03*1.166e-02/10000.); //---- pb
  }
  
+ nSig = vXsecSig.size();
  
  TString name;
  for (int iSig = 0; iSig < nSig; iSig++) {
@@ -54,22 +55,22 @@ void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX =
  
  //---- background
  
- TFile* f_ttjj = new TFile ("data/backgroundDelphes/ttbbjj.root"); //---- 1M events!
+ TFile* f_ttjj = new TFile ("data/trees/unweighted_events_ttjj_14TeV.103.hepmc.delphes.root.trees.root"); //---- 1k events
  
  double ttjj_xsec; 
 
- if (Energy = 14) {
-  ttjj_xsec =  2.84017E+01*1.166e-02/1000000.; //---- pb
+ if (Energy == 14) {
+  ttjj_xsec =  2.84017E+01*1.166e-02/1000.; //---- pb
  }
  
  // double ttjj_xsec = 2.0715/10000.; //---- pb
 //  double wwbbjj_xsec = 456.11/10000.; //---- pb
  
  //---- trees
- TTree* t_ttjj = (TTree*) f_ttjj -> Get ("tree");
+ TTree* t_ttjj = (TTree*) f_ttjj -> Get ("ntu");
 //  TTree* t_wwbbjj = (TTree*) f_wwbbjj -> Get ("tree");
  for (int iSig = 0; iSig < nSig; iSig++) {
-  t_Sig[iSig] = (TTree*) f_Sig[iSig] -> Get ("tree");
+  t_Sig[iSig] = (TTree*) f_Sig[iSig] -> Get ("ntu");
  }
  
  
@@ -83,19 +84,32 @@ void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX =
  
  
  // TString cut = Form ("jetpt1>30 && jetpt2>30 && mjj>400 && detajj>3.5");
- // TString cut = Form ("1");
- TString cut = Form (" \
- jetpt1>30 && jetpt2>30 \
- && mjj>400 && detajj>4.0 \
- && bjetpt1>25 && bjetpt2>25 \
- && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5 \
- && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
- && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
- && hbb_mass > 110 && hbb_mass < 140 \
- && mll < 70 \
- && hww_mt < 125 \
- && hbb_pt > 200 \
- ");
+ TString cut = Form ("1");
+
+//  TString cut = Form (" \
+//  jetpt1>30 && jetpt2>30 \
+//  && mjj>400 && detajj>4.0 \
+//  && bjetpt1>25 && bjetpt2>25 \
+//  && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5 \
+//  && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
+//  && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
+//  && hbb_mass > 110 && hbb_mass < 140 \
+//  && mll < 70 \
+//  && hww_mt < 125 \
+//  && hbb_pt > 200 \
+//  ");
+ 
+//  TString cut = Form (" \
+//  jetpt1>30 && jetpt2>30 \
+//  && mjj>400 && detajj>4.0 \
+//  && ((bjetpt1>25 && bjetpt2>25 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>50 && abs(hbb_eta)<2.5)) \
+//  && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
+//  && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
+//  && hbb_mass > 110 && hbb_mass < 140 \
+//  && mll < 70 \
+//  && hww_mt < 125 \
+//  && hbb_pt > 200 \
+//  ");
  
  // && ptll > 50 \
  
@@ -145,7 +159,7 @@ void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX =
   leg->AddEntry(h_Sig[iSig],vNameSigHR.at(iSig).c_str(),"l");
  }
  leg->AddEntry(h_ttjj,"ttjj","l");
- leg->AddEntry(h_wwbbjj,"wwbbjj","l");
+//  leg->AddEntry(h_wwbbjj,"wwbbjj","l");
  leg->SetFillStyle(0);
  
  //---- normalized
@@ -173,12 +187,18 @@ void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX =
  //--------------
  //---- dump ----
  std::cout << std::endl << std::endl << std::endl;
- for (int iBin=0; iBin<NBIN; iBin++) {
-  for (int iSig = 0; iSig < nSig; iSig++) {
+ for (int iSig = 0; iSig < nSig; iSig++) {
+  for (int iBin=0; iBin<NBIN; iBin++) {
    std::cout << h_Sig[iSig]->GetBinContent(iBin+1) << " : " ;
   }
   std::cout << std::endl;
  }
+
+ std::cout << "~~~~" << std::endl;
+ for (int iBin=0; iBin<NBIN; iBin++) {
+  std::cout << h_ttjj->GetBinContent(iBin+1) << " : " ;
+ }
+ std::cout << std::endl;
  
 }
 
