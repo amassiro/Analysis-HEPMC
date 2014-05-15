@@ -140,3 +140,17 @@ create ntuple:
     ./ntupleMakerHEPMCDelphes.exe -i data/tt_100TeV_unweighted_events.lhe.2.hepmc.root
     
     
+    ls data/signalDelphes | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/signalDelphes/"$1" -o data/trees/"$1".trees.root"}'
+    ls data/backgroundDelphes/14TeV/ttjj_14TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/14TeV/ttjj_14TeV/"$1" -o data/trees/"$1".trees.root"}'
+    
+    ls data/signalDelphes | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/signalDelphes/"$1" -o data/trees/"$1".trees.root"}' | /bin/sh
+    ls data/backgroundDelphes/14TeV/ttjj_14TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/14TeV/ttjj_14TeV/"$1" -o data/trees/"$1".trees.root"}' | /bin/sh
+    
+    
+
+
+
+
+
+
+    
