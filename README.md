@@ -64,6 +64,7 @@ Signal:
              eval `scram runtime -sh`  \n \
              cd -  \n\
              /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl  "$1".hepmc.delphes.root   "$1".hepmc    \n\
+             /afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select cp "$1".hepmc  /eos/cms/store/user/amassiro/HH/Samples/Signal/   \n\
              rm "$1".hepmc  \n\
          "}'  &> doit.sh
     
