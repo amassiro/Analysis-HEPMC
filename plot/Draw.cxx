@@ -30,7 +30,10 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  
  if (Energy = 14) {
   vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
-  vXsecSig.push_back(0.69676E-05*1.166e-02/10000.); //---- pb
+  vXsecSig.push_back(0.47575E-05/11784.); //---- pb
+ 
+//   vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
+//   vXsecSig.push_back(0.69676E-05*1.166e-02/11784.); //---- pb
   
   //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p0p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=0.5 c2v=1.0 c3=1.0");
   //  vXsecSig.push_back(0.35492E-04*1.166e-02/10000.); //---- pb
@@ -199,6 +202,8 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
   std::cout << h_ttjj->GetBinContent(iBin+1) << " : " ;
  }
  std::cout << std::endl;
+ 
+ std::cout << std::endl << std::endl << std::endl;
  
 }
 
