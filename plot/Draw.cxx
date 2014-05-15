@@ -28,21 +28,23 @@ void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX =
  
  std::cout << " Center of mass energy = " << Energy << std::endl;
  
+ if (Energy = 14) {
+  vNameSig.push_back("data/signalDelphes/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
+  vXsecSig.push_back(0.69676E-05*1.166e-02/10000.); //---- pb
+  
+  //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p0p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=0.5 c2v=1.0 c3=1.0");
+  //  vXsecSig.push_back(0.35492E-04*1.166e-02/10000.); //---- pb
+  //  
+  //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p0_C2V_p0p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=1.0");
+  //  vXsecSig.push_back(0.18200E-03*1.166e-02/10000.); //---- pb
+  //  
+  //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p0_C2V_p2p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=1.0");
+  //  vXsecSig.push_back(0.10522E-03*1.166e-02/10000.); //---- pb
+  //  
+  //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.5 c2v=1.0 c3=1.0");
+  //  vXsecSig.push_back(0.94832E-03*1.166e-02/10000.); //---- pb
+ }
  
- vNameSig.push_back("data/signalDelphes/Hvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc.delphes.root"); vNameSigHR.push_back("HH cv=1.0 c2v=1.0 c3=1.0");
- vXsecSig.push_back(0.20088E-04*1.166e-02/10000.); //---- pb
- 
-//  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p0p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=0.5 c2v=1.0 c3=1.0");
-//  vXsecSig.push_back(0.35492E-04*1.166e-02/10000.); //---- pb
-//  
-//  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p0_C2V_p0p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=1.0");
-//  vXsecSig.push_back(0.18200E-03*1.166e-02/10000.); //---- pb
-//  
-//  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p0_C2V_p2p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=1.0");
-//  vXsecSig.push_back(0.10522E-03*1.166e-02/10000.); //---- pb
-//  
-//  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.5 c2v=1.0 c3=1.0");
-//  vXsecSig.push_back(0.94832E-03*1.166e-02/10000.); //---- pb
  
  TString name;
  for (int iSig = 0; iSig < nSig; iSig++) {
@@ -54,7 +56,12 @@ void Draw (std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX =
  
  TFile* f_ttjj = new TFile ("data/backgroundDelphes/ttbbjj.root"); //---- 1M events!
  
- double ttjj_xsec = 2.0713/1000000.; //---- pb
+ double ttjj_xsec; 
+
+ if (Energy = 14) {
+  ttjj_xsec =  2.84017E+01*1.166e-02/1000000.; //---- pb
+ }
+ 
  // double ttjj_xsec = 2.0715/10000.; //---- pb
 //  double wwbbjj_xsec = 456.11/10000.; //---- pb
  
