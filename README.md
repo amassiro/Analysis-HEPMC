@@ -175,6 +175,9 @@ create ntuple:
     ls data/backgroundDelphes/14TeV/ttjj_14TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/14TeV/ttjj_14TeV/"$1" -o data/trees/"$1".trees.root"}' | /bin/sh
     
     
+    
+    ./ntupleMakerHEPMCDelphes.exe -i data/signalDelphes/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root -o data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root
+
 
 
 

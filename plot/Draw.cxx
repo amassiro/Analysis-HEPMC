@@ -30,7 +30,10 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  
  if (Energy = 14) {
   vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
-  vXsecSig.push_back(0.69676E-05*1.166e-02/10000.); //---- pb
+  vXsecSig.push_back(0.47575E-05/11784.); //---- pb
+ 
+//   vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
+//   vXsecSig.push_back(0.69676E-05*1.166e-02/11784.); //---- pb
   
   //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p0p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=0.5 c2v=1.0 c3=1.0");
   //  vXsecSig.push_back(0.35492E-04*1.166e-02/10000.); //---- pb
@@ -55,20 +58,29 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  
  //---- background
  
- TFile* f_ttjj = new TFile ("data/trees/unweighted_events_ttjj_14TeV.103.hepmc.delphes.root.trees.root"); //---- 1k events
+//  TFile* f_ttjj = new TFile ("data/trees/unweighted_events_ttjj_14TeV.103.hepmc.delphes.root.trees.root"); //---- 1k events
+
  
  double ttjj_xsec; 
 
  if (Energy == 14) {
-  ttjj_xsec =  2.84017E+01*1.166e-02/1000.; //---- pb
+  ttjj_xsec =  2.84017E+01*0.047*0.047/33000.; //---- pb  BR W>e/m = 0.047
+ }
+ else { //---- 100 TeV
+  ttjj_xsec =  2.89324E+03*0.047*0.047/1000.; //---- pb  BR W>e/m = 0.047
  }
  
  // double ttjj_xsec = 2.0715/10000.; //---- pb
 //  double wwbbjj_xsec = 456.11/10000.; //---- pb
  
  //---- trees
- TTree* t_ttjj = (TTree*) f_ttjj -> Get ("ntu");
-//  TTree* t_wwbbjj = (TTree*) f_wwbbjj -> Get ("tree");
+//  TTree* t_ttjj = (TTree*) f_ttjj -> Get ("ntu");
+ TChain t_ttjj("ntu");
+ t_ttjj.Add("data/trees/unweighted_events_ttjj_14TeV.*.hepmc.delphes.root.trees.root");
+ 
+ 
+ 
+ //  TTree* t_wwbbjj = (TTree*) f_wwbbjj -> Get ("tree");
  for (int iSig = 0; iSig < nSig; iSig++) {
   t_Sig[iSig] = (TTree*) f_Sig[iSig] -> Get ("ntu");
  }
@@ -199,6 +211,8 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
   std::cout << h_ttjj->GetBinContent(iBin+1) << " : " ;
  }
  std::cout << std::endl;
+ 
+ std::cout << std::endl << std::endl << std::endl;
  
 }
 

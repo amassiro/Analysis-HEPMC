@@ -137,6 +137,7 @@ int main (int argc, char **argv) {
  float fatbbjetphi;
  
  float mjj;
+ float detajj;
  float mbb;
  
  //---- h>bb
@@ -166,6 +167,8 @@ int main (int argc, char **argv) {
  
  float pt1;
  float pt2;
+ float eta1;
+ float eta2;
  float nlep;
  float channel;
  float mll;
@@ -173,6 +176,9 @@ int main (int argc, char **argv) {
  float pzll;
  float dphill;
  float pfmet;
+
+ float mllbb;
+
  
  float gen_pt1;
  float gen_pt2;
@@ -251,6 +257,8 @@ int main (int argc, char **argv) {
  outtree->Branch("mjj", &mjj, "mjj/F");
  outtree->Branch("mbb", &mbb, "mbb/F");
  
+ outtree->Branch("detajj", &detajj, "detajj/F");
+ 
  outtree->Branch("hbb_pt", &hbb_pt, "hbb_pt/F");
  outtree->Branch("hbb_eta", &hbb_eta, "hbb_eta/F");
  outtree->Branch("hbb_phi", &hbb_phi, "hbb_phi/F");
@@ -275,12 +283,16 @@ int main (int argc, char **argv) {
  outtree->Branch("gen_hww_eta", &gen_hww_eta, "gen_hww_eta/F");
  
  outtree->Branch("pfmet", &pfmet, "pfmet/F");
+ outtree->Branch("eta1", &eta1, "eta1/F");
+ outtree->Branch("eta2", &eta2, "eta2/F");
  outtree->Branch("pt1", &pt1, "pt1/F");
  outtree->Branch("pt2", &pt2, "pt2/F");
  outtree->Branch("ptll", &ptll, "ptll/F");
  outtree->Branch("pzll", &pzll, "pzll/F");
  outtree->Branch("mll", &mll, "mll/F");
  outtree->Branch("dphill", &dphill, "dphill/F");
+ outtree->Branch("mllbb", &mllbb, "mllbb/F");
+ 
  outtree->Branch("gen_pfmet", &gen_pfmet, "gen_pfmet/F");
  outtree->Branch("gen_pfmez", &gen_pfmez, "gen_pfmez/F");
  outtree->Branch("gen_mvv", &gen_mvv, "gen_mvv/F");
@@ -397,11 +409,11 @@ int main (int argc, char **argv) {
    if (IsPU == 0 && status == 1 && (pdgCode == 11 || pdgCode == 13) ) {    
     double pt = particle->PT;
     
-    if (pdgCode == 11) { //---- electrons
+    if (pdgCode == 11) { //---- electrons  e<0
      m_maxptleptons[-pt] = -(iPart+1);
     }
-    else { //---- muons
-     m_maxptleptons[-pt] = -(iPart+1);
+    else { //---- muons   m>0
+     m_maxptleptons[-pt] = (iPart+1);
     }
    }
   }
@@ -413,7 +425,7 @@ int main (int argc, char **argv) {
    //    std::cout << " nlep = " << m_maxptleptons.size() << std::endl;
    continue;
   }
-  std::cout << " * nlep = " << m_maxptleptons.size() << std::endl;
+//   std::cout << " * nlep = " << m_maxptleptons.size() << std::endl;
   
   
   // kind = 0/1 if m/e
@@ -648,9 +660,9 @@ int main (int argc, char **argv) {
   }
   
   if (bjetsfound<2 && fatjetfound==0) {
-   std::cout << " ** No 2-b-jets found " << std::endl;
-   std::cout << " ** bjetsfound  = " << bjetsfound  << std::endl;
-   std::cout << " ** fatjetfound = " << fatjetfound << std::endl;
+//    std::cout << " ** No 2-b-jets found " << std::endl;
+//    std::cout << " ** bjetsfound  = " << bjetsfound  << std::endl;
+//    std::cout << " ** fatjetfound = " << fatjetfound << std::endl;
    continue;
   }
    
@@ -747,6 +759,7 @@ int main (int argc, char **argv) {
   
   mjj = (Jet1 +  Jet2 ).M();
   mbb = (hbb).M();
+  detajj =  fabs (Jet1.Eta() - Jet2.Eta() );
   
   //---- h>bb
   hbb_pt  = (hbb).Pt();
@@ -800,12 +813,13 @@ int main (int argc, char **argv) {
    
    pt1 = l1.Pt();
    pt2 = l2.Pt();
+   eta1 = l1.Eta();
+   eta2 = l2.Eta();
    mll = (l1+l2).M();
    ptll = (l1+l2).Pt();
    pzll = (l1+l2).Pz();
    dphill = l1.DeltaPhi(l2);
-   
-
+   mllbb = (l1+l2+hbb).M();
    
    //   std::cout << " nH = " << nH << std::endl;
    
@@ -896,6 +910,7 @@ int main (int argc, char **argv) {
    channel = -1;
    mll = -99;
    dphill = -99;
+   mllbb = -99;
    
    hww_pt = -99;
    hww_etam = -99;
