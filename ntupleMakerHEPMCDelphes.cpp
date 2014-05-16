@@ -176,6 +176,9 @@ int main (int argc, char **argv) {
  float pzll;
  float dphill;
  float pfmet;
+
+ float mllbb;
+
  
  float gen_pt1;
  float gen_pt2;
@@ -288,6 +291,8 @@ int main (int argc, char **argv) {
  outtree->Branch("pzll", &pzll, "pzll/F");
  outtree->Branch("mll", &mll, "mll/F");
  outtree->Branch("dphill", &dphill, "dphill/F");
+ outtree->Branch("mllbb", &mllbb, "mllbb/F");
+ 
  outtree->Branch("gen_pfmet", &gen_pfmet, "gen_pfmet/F");
  outtree->Branch("gen_pfmez", &gen_pfmez, "gen_pfmez/F");
  outtree->Branch("gen_mvv", &gen_mvv, "gen_mvv/F");
@@ -420,7 +425,7 @@ int main (int argc, char **argv) {
    //    std::cout << " nlep = " << m_maxptleptons.size() << std::endl;
    continue;
   }
-  std::cout << " * nlep = " << m_maxptleptons.size() << std::endl;
+//   std::cout << " * nlep = " << m_maxptleptons.size() << std::endl;
   
   
   // kind = 0/1 if m/e
@@ -655,9 +660,9 @@ int main (int argc, char **argv) {
   }
   
   if (bjetsfound<2 && fatjetfound==0) {
-   std::cout << " ** No 2-b-jets found " << std::endl;
-   std::cout << " ** bjetsfound  = " << bjetsfound  << std::endl;
-   std::cout << " ** fatjetfound = " << fatjetfound << std::endl;
+//    std::cout << " ** No 2-b-jets found " << std::endl;
+//    std::cout << " ** bjetsfound  = " << bjetsfound  << std::endl;
+//    std::cout << " ** fatjetfound = " << fatjetfound << std::endl;
    continue;
   }
    
@@ -814,8 +819,7 @@ int main (int argc, char **argv) {
    ptll = (l1+l2).Pt();
    pzll = (l1+l2).Pz();
    dphill = l1.DeltaPhi(l2);
-   
-
+   mllbb = (l1+l2+hbb).M();
    
    //   std::cout << " nH = " << nH << std::endl;
    
@@ -906,6 +910,7 @@ int main (int argc, char **argv) {
    channel = -1;
    mll = -99;
    dphill = -99;
+   mllbb = -99;
    
    hww_pt = -99;
    hww_etam = -99;

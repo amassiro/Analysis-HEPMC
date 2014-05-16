@@ -58,20 +58,29 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  
  //---- background
  
- TFile* f_ttjj = new TFile ("data/trees/unweighted_events_ttjj_14TeV.103.hepmc.delphes.root.trees.root"); //---- 1k events
+//  TFile* f_ttjj = new TFile ("data/trees/unweighted_events_ttjj_14TeV.103.hepmc.delphes.root.trees.root"); //---- 1k events
+
  
  double ttjj_xsec; 
 
  if (Energy == 14) {
-  ttjj_xsec =  2.84017E+01*1.166e-02/1000.; //---- pb
+  ttjj_xsec =  2.84017E+01*0.047*0.047/33000.; //---- pb  BR W>e/m = 0.047
+ }
+ else { //---- 100 TeV
+  ttjj_xsec =  2.89324E+03*0.047*0.047/1000.; //---- pb  BR W>e/m = 0.047
  }
  
  // double ttjj_xsec = 2.0715/10000.; //---- pb
 //  double wwbbjj_xsec = 456.11/10000.; //---- pb
  
  //---- trees
- TTree* t_ttjj = (TTree*) f_ttjj -> Get ("ntu");
-//  TTree* t_wwbbjj = (TTree*) f_wwbbjj -> Get ("tree");
+//  TTree* t_ttjj = (TTree*) f_ttjj -> Get ("ntu");
+ TChain t_ttjj("ntu");
+ t_ttjj.Add("data/trees/unweighted_events_ttjj_14TeV.*.hepmc.delphes.root.trees.root");
+ 
+ 
+ 
+ //  TTree* t_wwbbjj = (TTree*) f_wwbbjj -> Get ("tree");
  for (int iSig = 0; iSig < nSig; iSig++) {
   t_Sig[iSig] = (TTree*) f_Sig[iSig] -> Get ("ntu");
  }
