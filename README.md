@@ -68,6 +68,34 @@ Signal:
              rm "$1".hepmc  \n\
          "}'  &> doit.sh
     
+    ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13  \n \
+          cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10  \n \
+             export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH  \n\
+             cd -  \n\
+             cd /afs/cern.ch/work/a/amassiro/Generation/CMSSW_5_3_14_patch2 \n \
+             eval `scram runtime -sh`  \n \
+             cd -  \n\
+             /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl  "$1".hepmc.delphes.root   "$1".hepmc    \n\
+             /afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select cp "$1".hepmc  /eos/cms/store/user/amassiro/HH/Samples/Signal/   \n\
+             rm "$1".hepmc  \n\
+         "}'  &> doit.sh
+
+   ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13  \n \
+          cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10  \n \
+             export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH  \n\
+             cd -  \n\
+             cd /afs/cern.ch/work/a/amassiro/Generation/CMSSW_5_3_14_patch2 \n \
+             eval `scram runtime -sh`  \n \
+             cd -  \n\
+             scp "$1".hepmc   amassiro@cmsneu.cern.ch:/data/amassiro/HEPMC/HH/  \n\
+             /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl  "$1".hepmc.delphes.root   "$1".hepmc    \n\
+             rm "$1".hepmc  \n\
+         "}'  &> doit.sh
+         
+         
+         
+         
+         
     ./main98.exe   /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe    /tmp/amassiro/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc   13    0     10000
     ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13    0     10000"}'
     
