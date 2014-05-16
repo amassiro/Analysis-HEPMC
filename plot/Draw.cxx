@@ -1,3 +1,35 @@
+TH1F * DrawOverflow(TH1F *h) {
+ // This function paint the histogram h with an extra bin for overflows
+ UInt_t nx    = h->GetNbinsX()+1;
+ Double_t *xbins= new Double_t[nx+1];
+ for (UInt_t i=0;i<nx;i++)
+  xbins[i]=h->GetBinLowEdge(i+1);
+ xbins[nx]=xbins[nx-1]+h->GetBinWidth(nx);
+ char *tempName= new char[strlen(h->GetName())+10];
+ sprintf(tempName,"%swtOverFlow",h->GetName());
+ // Book a temporary histogram having ab extra bin for overflows
+ TH1F *htmp = new TH1F(tempName, h->GetTitle(), nx, xbins);
+ //---- style
+ htmp->SetLineColor(h->GetLineColor());
+ htmp->SetLineWidth(h->GetLineWidth());
+ 
+ // Reset the axis labels
+ htmp->SetXTitle(h->GetXaxis()->GetTitle());
+ htmp->SetYTitle(h->GetYaxis()->GetTitle());
+ // Fill the new hitogram including the extra bin for overflows
+ for (UInt_t i=1; i<=nx; i++)
+  htmp->Fill(htmp->GetBinCenter(i), h->GetBinContent(i));
+ // Fill the underflows
+ htmp->Fill(h->GetBinLowEdge(1)-1, h->GetBinContent(0));
+ // Restore the number of entries
+ htmp->SetEntries(h->GetEntries());
+ // FillStyle and color
+ htmp->SetFillStyle(h->GetFillStyle());
+ htmp->SetFillColor(h->GetFillColor());
+ return htmp;
+}
+
+
 void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 1000, std::string varHR = "", int Energy) {
  
  if (varHR == "") {
@@ -28,7 +60,7 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  
  std::cout << " Center of mass energy = " << Energy << std::endl;
  
- if (Energy = 14) {
+ if (Energy == 14) {
   vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
   vXsecSig.push_back(0.47575E-05/11784.); //---- pb
  
@@ -47,6 +79,11 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
   //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.5 c2v=1.0 c3=1.0");
   //  vXsecSig.push_back(0.94832E-03*1.166e-02/10000.); //---- pb
  }
+ else {
+  vNameSig.push_back("data/trees/HHvbf_100tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=1.0 c3=10.0");
+  vXsecSig.push_back(0.15175E-04/50000.); //---- pb
+  
+ }
  
  nSig = vXsecSig.size();
  
@@ -64,7 +101,7 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  double ttjj_xsec; 
 
  if (Energy == 14) {
-  ttjj_xsec =  2.84017E+01*0.047*0.047/33000.; //---- pb  BR W>e/m = 0.047
+  ttjj_xsec =  2.84017E+01*0.047*0.047/103000.; //---- pb  BR W>e/m = 0.047
  }
  else { //---- 100 TeV
   ttjj_xsec =  2.89324E+03*0.047*0.047/1000.; //---- pb  BR W>e/m = 0.047
@@ -75,9 +112,13 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  
  //---- trees
 //  TTree* t_ttjj = (TTree*) f_ttjj -> Get ("ntu");
- TChain t_ttjj("ntu");
- t_ttjj.Add("data/trees/unweighted_events_ttjj_14TeV.*.hepmc.delphes.root.trees.root");
- 
+ TChain* t_ttjj = new TChain("ntu");
+ if (Energy == 14) {
+  t_ttjj->Add("data/trees/unweighted_events_ttjj_14TeV.*.hepmc.delphes.root.trees.root");
+ }
+ else {
+  t_ttjj->Add("data/trees/unweighted_events_ttjj_100TeV.*.hepmc.delphes.root.trees.root");
+ }
  
  
  //  TTree* t_wwbbjj = (TTree*) f_wwbbjj -> Get ("tree");
@@ -98,6 +139,36 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  // TString cut = Form ("jetpt1>30 && jetpt2>30 && mjj>400 && detajj>3.5");
  TString cut = Form ("1");
 
+ if (Energy == 14) {
+  cut = Form (" \
+  jetpt1>30 && jetpt2>30 \
+  && mjj>700 && detajj>4.0 \
+  && ((bjetpt1>30 && bjetpt2>30 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>50 && abs(hbb_eta)<2.5)) \
+  && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
+  && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
+  && mll < 70 \
+  && hww_mt < 125 \
+  && hbb_pt > 100 \
+  && mllbb > 200 \
+  ");
+ }
+ else {
+  cut = Form (" \
+  jetpt1>50 && jetpt2>50 \
+  && mjj>700 && detajj>4.0 \
+  && ((bjetpt1>50 && bjetpt2>50 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>70 && abs(hbb_eta)<2.5)) \
+  && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
+  && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
+  && mll < 70 \
+  && hww_mt < 125 \
+  && hbb_pt > 500 \
+  && mllbb > 600 \
+  ");
+ }
+ 
+ 
+//  && hbb_mass > 110 && hbb_mass < 140 \
+ 
 //  TString cut = Form (" \
 //  jetpt1>30 && jetpt2>30 \
 //  && mjj>400 && detajj>4.0 \
@@ -174,6 +245,14 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
 //  leg->AddEntry(h_wwbbjj,"wwbbjj","l");
  leg->SetFillStyle(0);
  
+ 
+ //---- overflow bin
+ h_ttjj = DrawOverflow(h_ttjj);
+ for (int iSig = 0; iSig < nSig; iSig++) {
+  h_Sig[iSig] = DrawOverflow(h_Sig[iSig]);
+ }
+ 
+ 
  //---- normalized
  TCanvas* cn = new TCanvas ("cn","cn",800,600);
  for (int iSig = 0; iSig < nSig; iSig++) {
@@ -184,7 +263,7 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
 //  h_wwbbjj->DrawNormalized("same");
  leg->Draw();
  cn->SetGrid();
- 
+  
  //---- lumi scaled
  TCanvas* cnlumi = new TCanvas ("cnlumi","cnlumi",800,600);
  h_ttjj->Draw();
