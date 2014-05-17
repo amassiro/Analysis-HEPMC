@@ -64,6 +64,7 @@ for i in range(numOfProcesses) :
              cd -  \n\
              /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl    /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc    \n\
              /afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select cp /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root   /eos/cms/store/user/amassiro/HH/SamplesNew/{PROCESS}/{ENERGY}/ \n\
+             cp  /tmp/unweighted_events_{PROCESS}_{ENERGY}.{NUM}.hepmc.delphes.root    /afs/cern.ch/user/a/amassiro/work/LesHouches2013/data/{PROCESS}/{ENERGY}/  \n\
              '.format(PWD=wd, PROCESS=process, ENERGY=energy, NUM=i, MIN=min, MAX=max)
 
 
