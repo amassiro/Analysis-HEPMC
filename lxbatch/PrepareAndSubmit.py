@@ -38,14 +38,14 @@ for i in range(numOfProcesses) :
              if [ -f $FILE ];\n\
              then\n\
                  echo "File $FILE exists."\n\
-                 sleep 30 \n\
+                 sleep 60 \n\
              else\n\
                  echo "File $FILE does not exist."\n\
                  FILE=/tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz \n\
                  if [ -f $FILE ];\n\
                  then\n\
                      echo "File $FILE exists, unzipping now."\n\
-                     sleep 30 \n\
+                     sleep 60 \n\
                  else\n\
                      cp /afs/cern.ch/user/a/amassiro/public/xLHTF/hhwwbb/{PROCESS}/{ENERGY}/unweighted_events.lhe.gz    /tmp/unweighted_events_{PROCESS}_{ENERGY}.lhe.gz   \n\
                      cd /tmp/   \n\
