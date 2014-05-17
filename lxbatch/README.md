@@ -39,3 +39,14 @@ But first:
 
 
 
+
+
+
+
+ls /tmp/amassiro/*.hepmc | awk '{print "/afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl  "$1".delphes.root "$1"  "}'
+ls /tmp/amassiro/*.hepmc | awk '{print "/afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl  "$1".delphes.root "$1"  "}' | /bin/sh
+
+
+
+
+
