@@ -171,6 +171,7 @@ create ntuple:
     
     
     ls data/signalDelphes/EXTERNAL | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/signalDelphes/EXTERNAL/"$1" -o data/trees/"$1".trees.root"}'
+    ls data/signalDelphes/Massironi1TB | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/signalDelphes/Massironi1TB/"$1" -o data/trees/"$1".trees.root"}'
     ls data/signalDelphes | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/signalDelphes/"$1" -o data/trees/"$1".trees.root"}'
     ls data/backgroundDelphes/14TeV/ttjj_14TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/14TeV/ttjj_14TeV/"$1" -o data/trees/"$1".trees.root"}'
     ls data/backgroundDelphes/100TeV/ttjj_100TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/100TeV/ttjj_100TeV/"$1" -o data/trees/"$1".trees.root"}'

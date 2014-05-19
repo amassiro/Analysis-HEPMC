@@ -12,6 +12,7 @@ TH1F * DrawOverflow(TH1F *h) {
  //---- style
  htmp->SetLineColor(h->GetLineColor());
  htmp->SetLineWidth(h->GetLineWidth());
+ htmp->SetLineStyle(h->GetLineStyle());
  
  // Reset the axis labels
  htmp->SetXTitle(h->GetXaxis()->GetTitle());
@@ -57,32 +58,50 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  //
  double LUMI = 3000. * 1000.; //---- 3 ab
  
+//  HHvbf_##tev_bbww_CV-i-C2V-j-C3-k.lhe
+//  CV = 1.0
+//  
+//  C2V = 0.0, 0.4, 0.8, 1.2, 1.6, 2.0 (j=1,2,3,4,5,6)
+//  
+//  C3 = -4.0, -1.5, 3.5, 6.0 (k=7,8,9,10)
+ 
  
  std::cout << " Center of mass energy = " << Energy << std::endl;
  
  if (Energy == 14) {
-  vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
-  vXsecSig.push_back(0.47575E-05/11784.); //---- pb
- 
-//   vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=7.0");
-//   vXsecSig.push_back(0.69676E-05*1.166e-02/11784.); //---- pb
+
+  vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-1-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=-4.0");
+  vXsecSig.push_back(0.69676E-05/11784.); //---- pb
+
+  vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-1-C3-8.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=-1.5");
+  vXsecSig.push_back(0.42130E-05/11784.); //---- pb
+
+  vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-1-C3-9.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=3.5");
+  vXsecSig.push_back(0.13748E-05/11784.); //---- pb
+
+  vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=6.0");
+  vXsecSig.push_back(0.14491E-05/11784.); //---- pb
   
-  //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p0p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=0.5 c2v=1.0 c3=1.0");
-  //  vXsecSig.push_back(0.35492E-04*1.166e-02/10000.); //---- pb
-  //  
-  //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p0_C2V_p0p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=1.0");
-  //  vXsecSig.push_back(0.18200E-03*1.166e-02/10000.); //---- pb
-  //  
-  //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p0_C2V_p2p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.0 c2v=2.0 c3=1.0");
-  //  vXsecSig.push_back(0.10522E-03*1.166e-02/10000.); //---- pb
-  //  
-  //  vNameSig.push_back("/tmp/amassiro/vbfhh/Events_2b2w2j/13tev/parton/pp_hh_vbf_BSM_13tev_VBFcuts_CV_p1p5_C2V_p1p0_C3_p1p0.root"); vNameSigHR.push_back("HH cv=1.5 c2v=1.0 c3=1.0");
-  //  vXsecSig.push_back(0.94832E-03*1.166e-02/10000.); //---- pb
+  vNameSig.push_back("data/trees/HHvbf_14tev_bbww_CV-1-C2V-2-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.4 c3=-4.0");
+  vXsecSig.push_back(0.47575E-05/11784.); //---- pb
+  
+  
  }
  else {
-  vNameSig.push_back("data/trees/HHvbf_100tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=1.0 c3=10.0");
-  vXsecSig.push_back(0.15175E-04/50000.); //---- pb
   
+  vNameSig.push_back("data/trees/HHvbf_100tev_bbww_CV-1-C2V-1-C3-10.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=6.0");
+  vXsecSig.push_back(0.15175E-04/25000.); //---- pb
+  
+  vNameSig.push_back("data/trees/HHvbf_100tev_bbww_CV-1-C2V-1-C3-7.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=-4.0");
+  vXsecSig.push_back(0.42070E-04/25000.); //---- pb
+  
+  vNameSig.push_back("data/trees/HHvbf_100tev_bbww_CV-1-C2V-1-C3-9.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.0 c3=3.5");
+  vXsecSig.push_back(0.15547E-04/25000.); //---- pb
+
+  vNameSig.push_back("data/trees/HHvbf_100tev_bbww_CV-1-C2V-2-C3-10.lhe.hepmc.delphes.root.trees.root"); vNameSigHR.push_back("HH cv=1.0 c2v=0.4 c3=6.0");
+  vXsecSig.push_back(0.77973E-05/25000.); //---- pb
+  
+
  }
  
  nSig = vXsecSig.size();
@@ -97,18 +116,21 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  
 //  TFile* f_ttjj = new TFile ("data/trees/unweighted_events_ttjj_14TeV.103.hepmc.delphes.root.trees.root"); //---- 1k events
 
- 
+// BR wwlvlv = BRW>ln*BRW>ln = 0.047 = 4.67e-02 = 0.1080*2*0.1080*2 // l = e/m
+
  double ttjj_xsec; 
 
  if (Energy == 14) {
-  ttjj_xsec =  2.84017E+01*0.047*0.047/103000.; //---- pb  BR W>e/m = 0.047
+  ttjj_xsec =  2.84017E+01*0.047/103000.; //---- pb  BR W>e/m = 0.047
  }
  else { //---- 100 TeV
-  ttjj_xsec =  2.89324E+03*0.047*0.047/1000.; //---- pb  BR W>e/m = 0.047
+  ttjj_xsec =  2.89324E+03*0.047/50000.; //---- pb  BR W>e/m = 0.047
  }
  
  // double ttjj_xsec = 2.0715/10000.; //---- pb
 //  double wwbbjj_xsec = 456.11/10000.; //---- pb
+ 
+ 
  
  //---- trees
 //  TTree* t_ttjj = (TTree*) f_ttjj -> Get ("ntu");
@@ -140,7 +162,7 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  TString cut = Form ("1");
 
  if (Energy == 14) {
-  cut = Form (" \
+//   cut = Form (" \
   jetpt1>30 && jetpt2>30 \
   && mjj>700 && detajj>4.0 \
   && ((bjetpt1>30 && bjetpt2>30 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>50 && abs(hbb_eta)<2.5)) \
@@ -151,19 +173,32 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
   && hbb_pt > 100 \
   && mllbb > 200 \
   ");
+  cut = Form (" \
+  jetpt1>30 && jetpt2>30 \
+  && mjj>700 && detajj>4.0 \
+  && ((bjetpt1>30 && bjetpt2>30 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>50 && abs(hbb_eta)<2.5)) \
+  && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
+  && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
+  ");
  }
  else {
   cut = Form (" \
-  jetpt1>50 && jetpt2>50 \
-  && mjj>700 && detajj>4.0 \
+  mjj>700 && detajj>4.0 \
   && ((bjetpt1>50 && bjetpt2>50 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>70 && abs(hbb_eta)<2.5)) \
   && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
   && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
-  && mll < 70 \
-  && hww_mt < 125 \
-  && hbb_pt > 500 \
-  && mllbb > 600 \
   ");
+//   cut = Form (" \
+//   jetpt1>50 && jetpt2>50 \
+//   && mjj>700 && detajj>4.0 \
+//   && ((bjetpt1>50 && bjetpt2>50 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>70 && abs(hbb_eta)<2.5)) \
+//   && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
+//   && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
+//   && mll < 70 \
+//   && hww_mt < 125 \
+//   && hbb_pt > 500 \
+//   && mllbb > 600 \
+//   ");
  }
  
  
