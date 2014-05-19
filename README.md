@@ -69,7 +69,7 @@ Signal:
          "}'  &> doit.sh
     
     ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13  \n \
-          cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10  \n \
+             cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10  \n \
              export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH  \n\
              cd -  \n\
              cd /afs/cern.ch/work/a/amassiro/Generation/CMSSW_5_3_14_patch2 \n \
@@ -80,16 +80,18 @@ Signal:
              rm "$1".hepmc  \n\
          "}'  &> doit.sh
 
-   ls /tmp/amassiro/*.lhe | awk '{print "./main98.exe   "$1"  "$1".hepmc   13  \n \
-          cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10  \n \
+   ls /tmp/amassiro/ | grep .lhe | grep -v .root | grep -v .hepmc | awk '{print "./main98.exe   /tmp/amassiro/"$1"  /tmp/amassiro/"$1".hepmc   13  \n\
+             cd /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10  \n \
              export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH  \n\
              cd -  \n\
              cd /afs/cern.ch/work/a/amassiro/Generation/CMSSW_5_3_14_patch2 \n \
              eval `scram runtime -sh`  \n \
              cd -  \n\
-             scp "$1".hepmc   amassiro@cmsneu.cern.ch:/data/amassiro/HEPMC/HH/  \n\
-             /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl  "$1".hepmc.delphes.root   "$1".hepmc    \n\
-             rm "$1".hepmc  \n\
+             scp /tmp/amassiro/"$1".hepmc   amassiro@cmsneu.cern.ch:/data/amassiro/HEPMC/HH/  \n\
+             rm /tmp/amassiro/"$1".hepmc.delphes.root \n\
+             /afs/cern.ch/work/a/amassiro/Generation/Delphes-3.0.10/DelphesHepMC    /afs/cern.ch/user/a/amassiro/work/Generation/HH/Pythia8/Analysis-HEPMC/delphes_card_CMS_modified.tcl  /tmp/amassiro/"$1".hepmc.delphes.root   /tmp/amassiro/"$1".hepmc    \n\
+             scp /tmp/amassiro/"$1".hepmc.delphes.root amassiro@cmsneu.cern.ch:/data/amassiro/HEPMC/HH_Delphes/ \n\
+             rm /tmp/amassiro/"$1".hepmc  \n\
          "}'  &> doit.sh
          
          
