@@ -79,7 +79,7 @@ print "now submit"
 for i in range(numOfProcesses) :
   fname = '/'.join([wd,newfol,'sub_'+str(i)+'.sh'])
   subprocess.Popen(['bsub -q {QUEUE} < {FILE}'.format(QUEUE=queue,FILE=fname)], stdout=subprocess.PIPE, shell=True)
-  os.system('sleep 5')
+  os.system('sleep 1')
 
 
 
