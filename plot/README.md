@@ -15,7 +15,7 @@ Plot
     r99t plot/Draw.cxx\(\"hww_mt\",10,0,400,\"m_{T}\",14\)
     r99t plot/Draw.cxx\(\"jetpt1\",10,0,300,\"jetpt1\",14\)
     r99t plot/Draw.cxx\(\"jetpt2\",10,0,300,\"jetpt2\",14\)
-    
+    r99t plot/Draw.cxx\(\"hbb_pt\",10,0,400,\"p_{Tbb}\",14\)
     
     
     r99t plot/Draw.cxx\(\"mjj\",10,0,4000,\"m_{jj}\",100\)

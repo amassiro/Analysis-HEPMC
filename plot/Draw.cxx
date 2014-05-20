@@ -121,10 +121,10 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  double ttjj_xsec; 
 
  if (Energy == 14) {
-  ttjj_xsec =  2.84017E+01*0.047/103000.; //---- pb  BR W>e/m = 0.047
+  ttjj_xsec =  2.84017E+01*0.047/260000.; //---- pb  BR W>e/m = 0.047
  }
  else { //---- 100 TeV
-  ttjj_xsec =  2.89324E+03*0.047/50000.; //---- pb  BR W>e/m = 0.047
+  ttjj_xsec =  2.89324E+03*0.047/98000.; //---- pb  BR W>e/m = 0.047
  }
  
  // double ttjj_xsec = 2.0715/10000.; //---- pb
@@ -162,18 +162,21 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
  TString cut = Form ("1");
 
  if (Energy == 14) {
-//   cut = Form (" \
+  cut = Form (" \
   jetpt1>30 && jetpt2>30 \
   && mjj>700 && detajj>4.0 \
   && ((bjetpt1>30 && bjetpt2>30 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>50 && abs(hbb_eta)<2.5)) \
   && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
   && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
-  && mll < 70 \
+  && mll < 50 \
   && hww_mt < 125 \
-  && hbb_pt > 100 \
-  && mllbb > 200 \
+  && hbb_pt > 200 \
+  && mbb>105 && mbb<145 \
   ");
-  cut = Form (" \
+  
+//   && mllbb > 200 \
+  
+//   cut = Form (" \
   jetpt1>30 && jetpt2>30 \
   && mjj>700 && detajj>4.0 \
   && ((bjetpt1>30 && bjetpt2>30 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>50 && abs(hbb_eta)<2.5)) \
@@ -182,23 +185,26 @@ void Draw(std::string var = "hbb_mass", int NBIN = 1000, int MIN = 0, int MAX = 
   ");
  }
  else {
-  cut = Form (" \
+//   cut = Form (" \
   mjj>700 && detajj>4.0 \
   && ((bjetpt1>50 && bjetpt2>50 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>70 && abs(hbb_eta)<2.5)) \
   && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
   && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
   ");
-//   cut = Form (" \
-//   jetpt1>50 && jetpt2>50 \
-//   && mjj>700 && detajj>4.0 \
-//   && ((bjetpt1>50 && bjetpt2>50 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>70 && abs(hbb_eta)<2.5)) \
-//   && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
-//   && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
-//   && mll < 70 \
-//   && hww_mt < 125 \
-//   && hbb_pt > 500 \
+  cut = Form (" \
+  jetpt1>50 && jetpt2>50 \
+  && mjj>700 && detajj>4.0 \
+  && ((bjetpt1>50 && bjetpt2>50 && abs(bjeteta1)<2.5 && abs(bjeteta2)<2.5) || (hbb_pt>70 && abs(hbb_eta)<2.5)) \
+  && abs(jeteta1)<4.5 && abs(jeteta2)<4.5 \
+  && pt1>20 && pt2>10 && abs(eta1)<2.5 && abs(eta2)<2.5 \
+  && mll < 70 \
+  && hww_mt < 125 \
+  && hbb_pt > 500 \
+  ");
+
 //   && mllbb > 600 \
-//   ");
+  
+  
  }
  
  
