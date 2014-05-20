@@ -176,6 +176,10 @@ create ntuple:
     ls data/backgroundDelphes/14TeV/ttjj_14TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/14TeV/ttjj_14TeV/"$1" -o data/trees/"$1".trees.root"}'
     ls data/backgroundDelphes/100TeV/ttjj_100TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/100TeV/ttjj_100TeV/"$1" -o data/trees/"$1".trees.root"}'
     
+    ls data/backgroundDelphes/14TeV/NEW14TeV_19May/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/14TeV/NEW14TeV_19May/"$1" -o data/trees/"$1".trees.root"}'
+    ls data/backgroundDelphes/100TeV/NEW100TeV_19May/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/100TeV/NEW100TeV_19May/"$1" -o data/trees/"$1".trees.root"}'
+    
+    
     ls data/signalDelphes | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/signalDelphes/"$1" -o data/trees/"$1".trees.root"}' | /bin/sh
     ls data/backgroundDelphes/14TeV/ttjj_14TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/14TeV/ttjj_14TeV/"$1" -o data/trees/"$1".trees.root"}' | /bin/sh
     ls data/backgroundDelphes/100TeV/ttjj_100TeV/ | awk '{print "./ntupleMakerHEPMCDelphes.exe -i data/backgroundDelphes/100TeV/ttjj_100TeV/"$1" -o data/trees/"$1".trees.root"}' | /bin/sh
